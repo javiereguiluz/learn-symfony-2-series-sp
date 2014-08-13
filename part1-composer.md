@@ -1,32 +1,43 @@
-You don't know anything about the Symfony2 framework, and you'd like a quick guide to learn how to use it, and how it works?
+#Learn Symfony2 - part 1: Composer
+
+You don't know anything about the [Symfony2](symfony.com) framework, and you'd like a quick guide to learn how to use it, and how it works?
 
 Then this article is for you :) .
 
-Don't get me wrong: one day or another you'll have to read the documentation, and you'll have to practice a lot in order to master it. But for now this guide should be a good start for you.
+Don't get me wrong: one day or another you'll have to read the [documentation](http://symfony.com/doc/current/index.html), and you'll have to practice a lot in order to master it. But for now this guide should be a good start for you.
 
-In the first article of this series, you'll learn about Composer, which helps you with third party library installation and updates.
+In the first article of this series, you'll learn about [Composer](https://getcomposer.org/), which helps you with third party library installation and updates.
 
-Creating the project#
-In order to understand how Symfony2 works, we won't use the Symfony Standard Edition, but rather start from scratch with the bare minimum.
+##Creating the project
+
+In order to understand how Symfony2 works, we won't use the [Symfony Standard Edition](http://symfony.com/distributions), but rather start from scratch with the bare minimum.
 
 Let's create our project:
 
+```sh
 mkdir knight
 cd knight
 git init
-Getting Composer#
+```
+
+##Getting Composer
+
 When developing a project the last thing you want is to waste your time re-inventing the wheel, so you install third party libraries. Those libraries have their own life cycle: they might release some bug fixes and new features after you installed them, so you'll need to update them sometimes.
 
-Composer makes these things so easy you'll never have to worry again about versions. First download it:
+[Composer](https://getcomposer.org/) makes these things so easy you'll never have to worry again about versions. First download it:
 
+```sh
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
+```
+
 And we're done! If only every project were so easy to install... :)
 
-Installing and updating Symfony2#
-Actually, Symfony2 is only a name regrouping many libraries which can be used individually (you can even use them in other frameworks, CMS or projects like Drupal, phpBB, Laravel, eZ Publish, OroCRM and Piwik did).
+##Installing and updating Symfony2
 
-Note: Symfony2 libraries are called components.
+Actually, Symfony2 is only a name regrouping many libraries which can be used individually (you can even use them in other frameworks, CMS or projects like [Drupal](http://symfony.com/projects/drupal), [phpBB](http://symfony.com/projects/phpbb), [Laravel](http://symfony.com/projects/laravel), [eZ Publish](http://symfony.com/projects/ezpublish), [OroCRM](http://symfony.com/projects/orocrm) and [Piwik](http://symfony.com/projects/piwik) did).
+
+Note: Symfony2 libraries are called ``components``.
 
 Composer was made to install libraries, so let's use it:
 
