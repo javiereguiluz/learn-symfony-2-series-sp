@@ -1,18 +1,19 @@
 ---
 layout: post
-title: Learn Symfony2 - part 2: Empty application
+title: Aprende Symfony2 - parte 2: Aplicación vacía
 tags:
     - Symfony2
-    - technical
-    - Learn Symfony2 series
+    - técnico
+    - serie Aprende Symfony2
 ---
 
-This is the second article of the series on learning
-[the Symfony2 framework](http://symfony.com/).
-Have a look at the first one: {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', 'Composer') }}.
+Este es el segundo artículo de la sere para aprender sobre
+[el framework Symfony2](http://symfony.com/).
+Échale un vistazo al primero:
+{{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', 'Composer') }}.
 
-In the first article we began to create an empty project with the following
-files:
+En el primer artículo empezamos a crear nuestro proyecto vacío con los
+siguientes archivos:
 
     .
     ├── composer.json
