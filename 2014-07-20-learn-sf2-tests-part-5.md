@@ -1,23 +1,23 @@
 ---
 layout: post
-title: Learn Symfony2 - part 5: Tests
+title: Aprende Symfony2 - parte 5: Tests
 tags:
     - Symfony2
-    - technical
-    - Learn Symfony2 series
+    - técnico
+    - serie Aprende Symfony2
 ---
 
-This is the fifth article of the series on learning
-[the Symfony2 framework](http://symfony.com/).
-Have a look at the four first ones:
+Este es el quinto artículo de la serie para aprender sobre
+[el framework Symfony2](http://symfony.com/).
+Echa un vistazo a los cuatro primeros:
 
 1. {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', 'Composer') }}
-2. {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', 'Empty application') }}
+2. {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', 'Aplicación Vacía') }}
 3. {{ link('posts/2014-07-02-learn-sf2-bundles-part-3.md', 'Bundles') }}
-4. {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', 'Controllers') }}
+4. {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', 'Controladores') }}
 
-In the previous articles we created an application for the Knight of Ni with the
-following files:
+En los anteriores artículos comenzamos a crear una aplicación vacía con los
+siguientes archivos:
 
     .
     ├── app
@@ -41,29 +41,29 @@ following files:
     └── web
         └── app.php
 
-Running `composer install` should create a `vendor` directory, which we ignored
-with git.
+Ejecutar `composer install` debería crear el directorio `vendor`, que hemos
+ignorado en git.
 
-Here's the [repository where you can find the actual code](https://github.com/gnugat/learning-symfony2/tree/4-controllers).
+Aquí está el [el repositorio en el que encontrarás el código hasta ahora](https://github.com/gnugat/learning-symfony2/tree/4-controllers).
 
-In this article, we'll create functional tests using PHPUnit.
+En este artículo crearemos tests funcionales utilizando PHPUnit.
 
-## Installing PHPUnit
+## Instalando PHPUnit
 
-[PHPUnit](http://phpunit.de/) is a popular test framework.
-Its name is deceptive: you can write any kind of test with it (unit, functional,
-end to end, anything).
+[PHPUnit](http://phpunit.de/) es un popular framework de testing.
+Su nombre engaña: puedes escribir todo tipo de tests con él (unitarios, pero
+  también funcionales, *end to end*, etc).
 
-Let's install it in our project:
+Instalémoslo en nuestro proyecto:
 
     composer require --dev "phpunit/phpunit:~4.1"
 
-The `--dev` options will prevent Composer from installing PHPUnit when running
-`composer install --no-dev`: this is use in production (download is costly).
+La opción `--dev` evitará que Composer instale PHPUnit cuando ejecutemos
+`composer install --no-dev`: se usa en producción (para reducir descargas).
 
-We will need to create a configuration file to tell PHPUnit to execute the tests
-found in `src/Knight/ApplicationBundle/Tests`, and to use Composer as an
-autoloader:
+Necesitaremos crear un archivo de configuración que le diga a PHPUnit que
+ejecute los tests situados en `src/Knight/ApplicationBundle/Tests`, y que use
+Composer como autoloader:
 
     <?xml version="1.0" encoding="UTF-8"?>
     <!-- File: app/phpunit.xml.dist -->
@@ -83,26 +83,26 @@ autoloader:
 
     </phpunit>
 
-*Note*: [By convention](http://symfony.com/doc/current/cookbook/bundles/best_practices.html#directory-structure)
-you should put your tests in `src/Knight/ApplicationBundle/Tests`. It's not hard
-coded though, but if you want people to find things where they expect them to be
-you better follow them ;) .
+*Nota*: [Por convención](http://symfony.com/doc/current/cookbook/bundles/best_practices.html#directory-structure)
+deberías poner tus tests en `src/Knight/ApplicationBundle/Tests`. No es
+obligatorio, pero si quieres que otra gente encuentre las cosas donde esperan
+encontrarlas, es mejor que las sigas ;) .
 
-This file is suffixed with `.dist` because we intend to allow developer to
-override the configuration by creating a `app/phpunit.xml` file. Only the
-distribution file should be commited, though:
+Este archivo lleva el sufijo `.dist` porque pretendemos que cada desarrollador
+pueda sobreescribir la configuración creando un archivo `app/phpunit.xml`. Sólo
+el archivo distribuído debe ser publicado:
 
     echo '/app/phpunit.xml' >> .gitignore
     git add -A
-    git commit -m 'Installed PHPUnit'
+    git commit -m 'PHPUnit instalado'
 
-## Environments
+## Entornos
 
-For our functional tests, we will be using the `WebTestCase` class: it
-instanciates our `AppKernel` with the `test` environment. It also uses a
-`test.client` service, which is disabled by default.
+Para nuestros tests funcionales, utilizaremos la clase `WebTestCase`: instancia
+nuestro `AppKernel` con el entorno `test`. También usa el servicio
+`test.client`, que está desactivado por defecto.
 
-In order to enable this service, we must change the configuration:
+Para actiarlo, debemos modificar la configuración:
 
     # File: app/config/config.yml
     framework:
@@ -112,9 +112,9 @@ In order to enable this service, we must change the configuration:
 
         # test: ~
 
-Sometimes, you don't want your configuration to be the same for your tests and
-your production server. That's what environments are for. Let's put this test
-specific configuration in a different file:
+Normalmente no queremos que nuestra configuración sea la misma en nuestros tests
+y en nuestro servidor de producción. Para eso están los entornos. Coloquemos la
+configuración específica de nuestros tests en un archivo diferente:
 
     # File: app/config/config_test.yml
     imports:
@@ -123,12 +123,13 @@ specific configuration in a different file:
     framework:
         test: ~
 
-*Note*: the `imports` parameter allows you to include other configuration files.
-You can then overwrite the included parameters, or add new ones.
+*Nota*: el parámetro `imports` te permite incluír otros archivos de
+configuración.
+Así, puedes sobreescribir los parámetros incluídos, o añadir nuevos.
 
-We should also change the `registerContainerConfiguration` method of the
-`AppKernel` class in order to load the test configuration, depending on the
-environment:
+Deberíamos cambiar el método `registerContainerConfiguration` de la clase
+`AppKernel` para que cargue la configuración de los tests dependiendo del
+entorno:
 
     <?php
     // File: app/AppKernel.php
@@ -156,25 +157,25 @@ environment:
         }
     }
 
-Let's commit our work:
+Subamos nuestro trabajo al repositorio:
 
     git add -A
-    git commit -m 'Added test configuration'
+    git commit -m 'Añadida  la configuración de testing'
 
-## Functional tests
+## Tests funcionales
 
-Our test must check that the application behaves as expected. We won't be
-checking that it actually fulfills our business expectations. This means that
-checking the HTTP status code is entirely sufficient.
+Nuestro test debe comprobar que la aplicación se comporta como esperamos. No
+comprobaremos que realmente cumple todas nuestras expectativas de negocio. Esto
+significa que comprobar el código de estado HTTP es más que suficiente.
 
-Let's create the directory:
+Creemos el directorio:
 
     mkdir -p src/Knight/ApplicationBundle/Tests/Controller
 
-*Note*: Again, [by convention](http://symfony.com/doc/current/book/testing.html#unit-tests),
-your test directory structure must mirror the one found in the bundle.
+*Nota*: De nuevp [por convención](http://symfony.com/doc/current/book/testing.html#unit-tests),
+tu estructura de directorios de test debe replicar la de tu bundle.
 
-And then our first functional test:
+Y nuestro primer test funcional:
 
     <?php
     // File: src/Knight/ApplicationBundle/Tests/Controller/ApiControllerTest.php
@@ -204,15 +205,15 @@ And then our first functional test:
         }
     }
 
-To make sure the test pass, run the following command:
+Para comprobar que pasamos el test, ejecuta el siguiente comando:
 
     ./vendor/bin/phpunit -c app
 
-Composer has installed a binary in `vendor/bin`, and the `-c` option allows you
-to tell PHPUnit where the configuration is (in `./app`).
+Composer ha instalado un archivo binario en `vendor/bin`, y la opción `-c` te
+permite decírle a PHPUnit dónde está la configuración (en `./app`).
 
-This looks a bit long because of the content parameter... We can improve this
-with helper methods:
+Parece que nuestro test es un poco largo por culpa de los parámetros... Podemos
+mejorar esto con métodos auxiliares:
 
     <?php
     // File: src/Knight/ApplicationBundle/Tests/Controller/ApiControllerTest.php
@@ -240,13 +241,14 @@ with helper methods:
         }
     }
 
-Make sure the test still pass:
+Comprueba que aún pasamos el test:
 
     ./vendor/bin/phpunit -c app
 
-The Response's `isSuccessful` method only checks that the status code is 200ish.
+El método `isSuccessful` de Response sólo comprueba que el código de estado es
+200.
 
-Here's a test for failure cases:
+Aquí está el test para el caso de error:
 
     <?php
     // File: src/Knight/ApplicationBundle/Tests/Controller/ApiControllerTest.php
@@ -281,20 +283,21 @@ Here's a test for failure cases:
         }
     }
 
-Run the tests:
+Ejecuta los tests:
 
     ./vendor/bin/phpunit -c app
 
-*Note*: At this point running the tests should become a habit. Make sure to run
-them whenever you finish a change, and to run them before commiting anything.
+*Nota*: A partir de aquí, debería convertirse en habitual ejecutar los tests.
+Asegúrate de ejecutarlos siempre que termines un cambio, y de ejecutarlos de
+nuevo antes de añadir nada al repositorio.
 
-## Rest API functional tests
+## Tests funcionales de la API Rest
 
-In my humble opinion, checking if the status code is 200ish and not checking the
-response content is entirely sufficient for functional tests.
+En mi humilde opinión, comprobar que el código de estado es 200 y no comprobar
+el contenido de la respuesta es más que suficiente para un test funcional.
 
-When creating REST API, it can prove useful to test more precisely the status
-code. Our application is a REST API, so let's do this:
+Al crear una API REST, puede ser útil testear más precisamente el código de
+estatus. Nuestra aplicación es una API REST, así que hagámoslo:
 
     <?php
     // File: src/Knight/ApplicationBundle/Tests/Controller/ApiControllerTest.php
@@ -330,33 +333,34 @@ code. Our application is a REST API, so let's do this:
         }
     }
 
-Run the tests:
+Ejecuta los tests:
 
     ./vendor/bin/phpunit -c app
 
-All green! That's comforting enough for us to commit our work and call it a day!
+¡Verde! ¡Es suficiente recompensa como para subir nuestro trabajo al repositorio
+y dar la jornada por terminada!
 
     git add -A
-    git commit -m 'Added tests'
+    git commit -m 'Tests añadidos'
 
-## Conclusion
+## Conclusión
 
-Running `./vendor/bin/phpunit -c app` is less cumbersome than having to run
-manually HTTPie (like in the previous article)!
+¡Ejecutar `./vendor/bin/phpunit -c app` es más sencillo que tener que ejecutar
+manualmente HTTPie (como en el artículo anterior)!
 
-Writing functional tests is easy and quick, the only thing you need to do is
-check if the HTTP response's status code is successful (and for REST API you
-need to check the precise HTTP response's status code).
+Escribir tests funcionales es fácil y rápido, lo único que debes hacer es
+comprobar si el código de status HTTP es correcto (y para una API REST,
+  comprobar con precisión el código de status HTTP).
 
-The next article will be the conclusion of this series, I hope you enjoyed it!
+El próximo artículo será un resumen de esta serie, ¡espero que te haya gustado!
 
-### Next articles
+### Próximos artículos
 
-* {{ link('posts/2014-07-23-learn-sf2-conclusion.md', 'Conclusion') }}
+* {{ link('posts/2014-07-23-learn-sf2-conclusion.md', 'Conclusión') }}
 
-### Previous articles
+### Artículos anteriores
 
 * {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', '1: Composer') }}
-* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Empty application') }}
+* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Aplicación Vacía') }}
 * {{ link('posts/2014-07-02-learn-sf2-bundles-part-3.md', '3: Bundles') }}
-* {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', '4: Controllers') }}
+* {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', '4: Controladores') }}
