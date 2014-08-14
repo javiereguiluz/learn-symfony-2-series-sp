@@ -1,116 +1,115 @@
 ---
 layout: post
-title: Learn Symfony2 - part 1: Composer
+title: Aprende Symfony2 - parte 1: Composer
 tags:
     - Symfony2
     - technical
-    - Learn Symfony2 series
+    - serie Aprende Symfony2
 ---
 
-You don't know anything about the [Symfony2](http://symfony.com/) framework,
-and you'd like a quick guide to learn how to use it, and how it works?
+¿No sabes nada del framework [Symfony2](http://symfony.com/), y te gustaría leer
+una guía rápida para aprender cómo utilizarlo, y cómo funciona?
 
-Then this article is for you :) .
+Entonces este artículo es para ti :) .
 
-Don't get me wrong: one day or another you'll have to read the
-[documentation](http://symfony.com/doc/current/index.html), and you'll have to
-practice a lot in order to master it. But for now this guide should be a good
-start for you.
+No me malinterpretes, un día u otro tendrás que leer la
+[documentación](http://symfony.com/doc/current/index.html), y deberás practicar
+mucho si quieres dominarlo. Pero por ahora esta guía debería ser un buen comienzo
+para ti.
 
-In the first article of this series, you'll learn about
-[Composer](https://getcomposer.org/), which helps you with third party library
-installation and updates.
+En el primer artículo de esta serie, conocerás [Composer](https://getcomposer.org/),
+que te ayudará con la instalación y actualización de librerías de terceros.
 
-## Creating the project
+## Creando el proyecto
 
-In order to understand how Symfony2 works, we won't use the
-[Symfony Standard Edition](http://symfony.com/distributions), but rather start
-from scratch with the bare minimum.
+Para entender mejor cómo funciona Symfony2, no usaremos la [distribución estándar de
+Symfony](http://symfony.com/distributions), sino que empezaremos desde cero con los
+archivos estrictamente necesarios.
 
-Let's create our project:
+Creemos nuestro proyecto:
 
     mkdir knight
     cd knight
     git init
 
-## Getting Composer
+## Instalando Composer
 
-When developing a project the last thing you want is to waste your time
-re-inventing the wheel, so you install third party libraries. Those libraries
-have their own life cycle: they might release some bug fixes and new features
-after you installed them, so you'll need to update them sometimes.
+Cuando desarrollas un proyecto, lo último que quieres es perder el tiempo reinventando
+la rueda, así que normalmente utilizas librerías de terceros. Estas librerías tienen
+su propio ciclo de desarrollo: pueden reparar bugs y lanzar nuevas funcionalidades
+una vez las has instalado, así que necesitarás actualizarlas de vez en cuando.
 
-[Composer](https://getcomposer.org/) makes these things so easy you'll never
-have to worry again about versions. First download it:
+[Composer](https://getcomposer.org/) facilita esta labor de tal manera que nunca más
+tendrás que preocuparte por las nuevas versiones. Primero, descárgalo:
 
     curl -sS https://getcomposer.org/installer | php
     sudo mv composer.phar /usr/local/bin/composer
 
-And we're done! If only every project were so easy to install... :)
+¡Ya está! Si todos los proyectos fueran tan sencillos de instalar...
 
-## Installing and updating Symfony2
+## Instalando y actualizando Symfony2
 
-Actually, Symfony2 is only a name regrouping many libraries which can be used
-individually (you can even use them in other frameworks, CMS or projects like
+En realidad, Symfony2 es sólo un nombre bajo el que se agrupan muchas librerías que
+podrían ser usadas individualmente (incluso puedes usarlas en otros frameworks, CMS
+  o proyectos, como han hecho
 [Drupal](http://symfony.com/projects/drupal),
 [phpBB](http://symfony.com/projects/phpbb),
 [Laravel](http://symfony.com/projects/laravel),
 [eZ Publish](http://symfony.com/projects/ezpublish),
-[OroCRM](http://symfony.com/projects/orocrm) and
-[Piwik](http://symfony.com/projects/piwik) did).
+[OroCRM](http://symfony.com/projects/orocrm) y
+[Piwik](http://symfony.com/projects/piwik)).
 
-*Note*: Symfony2 libraries are called `components`.
+*Nota*: Las librerías de Symfony2 se llaman `componentes`.
 
-Composer was made to install libraries, so let's use it:
+Composer se creó para instalar librerías, así que vamos a usarlo:
 
-    composer require 'symfony/symfony:~2.5' # install every single libraries in sf2
+    composer require 'symfony/symfony:~2.5' # instalamos todas las librerías de sf2
 
-This command will do the following steps:
+Este comando realizará las siguientes tareas:
 
-1. create a `composer.json` configuration file if it doesn't already exist
-2. add `symfony/symfony: ~2.5` in it (useful for further `composer install`)
-3. actually download symfony inside the `vendor/symfony/symfony` directory
-4. create a `composer.lock` file
+1. crear un archivo de configuración llamado `composer.json` si no existe ya
+2. añadir `symfony/symfony: ~2.5` a ese archivo (útil para futuros `composer install`)
+3. descargar efectivamente symfony en el directorio `vendor/symfony/symfony`
+4. crear un archivo `composer.lock`
 
-Later on, to update those dependencies you'll just have to run
-`composer update`.
+Más tarde, para actualizar estas dependencias, bastará con ejecutar `composer update`.
 
-*Note*: a library on which you depend upon is called a `dependency`.
+*Nota*: Las librerías de las que depende tu proyecto se llaman `dependencias`.
 
-This will look in the `composer.lock` file to know which version has been
-installed (e.g. 2.5.0) and then checks if there's any new version available.
-For more information about how Composer handles versions, see
-[Igor's article](https://igor.io/2013/01/07/composer-versioning.html).
+El comando recorrerá el archivo `composer.lock` para saber qué versión ha sido instalada
+(p.e. 2.5.0) y comprobará si hay una versión más reciente disponible.
+Para más información sobre la manera en que Composer maneja las versiones, ver
+[este artículo de Igor](https://igor.io/2013/01/07/composer-versioning.html).
 
-This means that you can totally ignore the `vendor` directory:
+Esto significa que puedes ignorar el directorio `vendor`:
 
     echo '/vendor/*' >> .gitignore
 
-If your team wants to install your project, they'll just have to clone your
-repository and then run `composer install` which runs into the following steps:
+Si tu equipo quiere instalar tu proyecto, sólo necesitarán clonar el tu repositorio
+y ejecutar `composer install` que realiza las siguientes tareas:
 
-1. read the `composer.json` file to see the list of dependencies
-2. read the `composer.lock` file to check the version installed by the commiter
-3. download the dependencies with the version specified in the lock (even if new
-   ones are available)
+1. lee el archivo `composer.json` para recoger la lista de dependencias
+2. lee el archivo `composer.lock` comprobar la versión instalada por el *commiter*
+3. descarga las dependencias con la versión especificada en el archivo lock
+(aunque haya una nueva versión disponible)
 
-If a dependency is listed in `composer.json` but not in `composer.lock`,
-Composer will download the last matching version and add it to the lock.
+Si una dependencia aparece en el archivo `composer.json` pero no en el `composer.lock`,
+Composer descargará la versión coincidente más reciente que y la añadirá al lock.
 
-This means that everyone will have the same version installed! If you allow only
-one person to run `composer update` you can guarantee this.
+¡Esto significa que todo el mundo tendrá la misma versión instalada! Si sólo permites
+a una persona ejecutar `composer update`, está garantizado.
 
 ## Autloading
 
-Because Composer knows where each classes of the installed libraries are, it
-provides a nice feature:
+Gracias a que Composer sabe dónde está cada clase de cada librería instalada, ofrece
+una buenísima funcionalidad:
 [autoloading](http://www.php.net/manual/en/language.oop5.autoload.php).
 
-Simply put, each time a class is called, Composer will automatically include the
-file where it's declared.
+Para resumir, cada vez que una clase es instanciada, Composer incluye automáticamente
+el archivo en el que fue declarada.
 
-Your own code too can benefit from it. We just need to edit the `composer.json`
-file:
+Tu propio código también puede beneficiarse de ello. Necesitas editar el archivo
+`composer.json`:
 
     {
         "require": {
@@ -123,40 +122,40 @@ file:
         }
     }
 
-And run the following command to take the changes into account:
+Y ejecutar el siguiente comando para que se contemplen los cambios:
 
     composer update
 
-This tells Composer that we're going to follow the
-[PSR-4](http://www.php-fig.org/psr/psr-4/) standard and that we're going to put
-our sources in the `src` directory.
+Este comando le dice a Composer que vamos a seguir el estándar
+[PSR-4](http://www.php-fig.org/psr/psr-4/) y que vamos a poner nuestro código fuente
+en el directorio `src`.
 
-*Note*: PSR 4 requires you to:
+*Nota*: PSR requiere que tu código siga algunas convenciones:
 
-* create one class per file
-* give the same name to your file and your class
-* use the path of the class for the namespace
+* crea una clase por cada archivo
+* dale el mismo nombre a tu archivo y tu clase
+* usa la ruta de la clase como namespace
 
-For example: the file `src/Knight/ApplicationBundle/KnightApplicationBundle.php`
-contains a class named `KnightApplicationBundle` located in the namespace
+Por ejemplo: el archivo `src/Knight/ApplicationBundle/KnightApplicationBundle.php`
+contine una clase llamada `KnightApplicationBundle` localizada en el namespace
 `Knight\ApplicationBundle`.
 
-Don't worry too much about it for now.
+No te preocupes demasiado por esto ahora.
 
-## Conclusion
+## Conclusión
 
-And that's everything you need to know about Composer for now. Let's commit our
-work:
+...Y esto es todo lo que necesitas saber sobre Composer por ahora. Hagamos un commit
+de nuestro trabajo:
 
     git add -A
-    git commit -m 'Installed Symfony2'
+    git commit -m 'Symfony2 instalado'
 
-I hope this could help you, stay tuned for the next articles!
+Espero que te haya servido, ¡permanece atento a los próximos artículos!
 
-### Next articles
+### Próximos artículos
 
-* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Empty application') }}
+* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Aplicación vacía') }}
 * {{ link('posts/2014-07-02-learn-sf2-bundles-part-3.md', '3: Bundles') }}
-* {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', '4: Controllers') }}
+* {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', '4: Controladores') }}
 * {{ link('posts/2014-07-20-learn-sf2-tests-part-5.md', '5: Tests') }}
-* {{ link('posts/2014-07-23-learn-sf2-conclusion.md', 'Conclusion') }}
+* {{ link('posts/2014-07-23-learn-sf2-conclusion.md', 'Conclusión') }}
