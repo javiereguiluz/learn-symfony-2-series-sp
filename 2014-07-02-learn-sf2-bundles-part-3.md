@@ -1,21 +1,21 @@
 ---
 layout: post
-title: Learn Symfony2 - part 3: Bundles
+title: Aprende Symfony2 - parte 3: Bundles
 tags:
     - Symfony2
-    - technical
-    - Learn Symfony2 series
+    - técnico
+    - serie Aprende Symfony2
 ---
 
-This is the third article of the series on learning
-[the Symfony2 framework](http://symfony.com/).
-Have a look at the two first ones:
+Este es el tercer artículo de la serie para aprender sobre
+[el framework Symfony2](http://symfony.com/).
+Echa un vistazo a los dos primeros:
 
 * {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', '1: Composer') }}
-* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Empty application') }}
+* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Aplicación vacía') }}
 
-In the previous articles we began to create an empty application with the
-following files:
+En los anteriores artículos comenzamos a crear una aplicación vacía con los
+siguientes archivos:
 
     .
     ├── app
@@ -32,25 +32,26 @@ following files:
     └── web
         └── app.php
 
-Running `composer install` should create a `vendor` directory, which we ignored
-with git.
+Ejecutar `composer install` debería crear el directorio `vendor`, que hemos
+ignorado en git.
 
-Here's the [repository where you can find the actual code](https://github.com/gnugat/learning-symfony2/releases/tag/2-empty-application).
+Aquí está el [el repositorio en el que encontrarás el código hasta ahora](https://github.com/gnugat/learning-symfony2/releases/tag/2-empty-application).
 
-We'll now see what a bundle is.
+Vamos a ver qué es un bundle.
 
-## Creating the application bundle
+## Creando el bundle de la aplicación
 
-We'll need some use case in order for our code snippets to make sense. So here
-it is: the Knights Who Say 'Ni', demand a webservice! It shall say 'ni' if the
-user do not appease it. To do so, the user should post a shrubbery!
+Necesitaremos un caso de uso para que nuestros trozos de código tengan sentido.
+Así que ahí va: ¡los Caballeros Que Dicen 'Ni' necesitan un webservice! Deberá
+decir 'ni' si el usuario no complace sus exigencias. Para hacerlo, el usuario
+deberá postear ¡una almáciga (shruberry)!
 
-Let's create our application bundle, in order to have a place where we can put
-our code. To do so we need to create the directory:
+Vamos a definir el primer bundle de nuestra aplicación, para tener así un lugar
+en el que poner nuestro código. Para ello necesitamos crear su directorio:
 
     mkdir -p src/Knight/ApplicationBundle
 
-Then the class extending `Symfony\Component\HttpKernel\Bundle\Bundle`:
+Después, la clase, que extiende a `Symfony\Component\HttpKernel\Bundle\Bundle`:
 
     <?php
     // File: src/Knight/ApplicationBundle/KnightApplicationBundle.php
@@ -63,7 +64,7 @@ Then the class extending `Symfony\Component\HttpKernel\Bundle\Bundle`:
     {
     }
 
-Finally we register the bundle into our application:
+Finalmente registramos el bundle en nuestra aplicación:
 
     <?php
     // File: app/AppKernel.php
@@ -77,7 +78,7 @@ Finally we register the bundle into our application:
         {
             return array(
                 new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
-                new Knight\ApplicationBundle\KnightApplicationBundle(), // <-- Here!
+                new Knight\ApplicationBundle\KnightApplicationBundle(), // <-- Aquí!
             );
         }
 
@@ -87,14 +88,14 @@ Finally we register the bundle into our application:
         }
     }
 
-Let's commit our work:
+Subamos nuestro trabajo al repositorio:
 
     git add -A
-    git commit -m 'Created Application bundle'
+    git commit -m 'Creado el bundle de la aplicación'
 
-## Bundles allow you to extend the application's DIC
+## Los Bundles te permiten extender el DIC de la aplicación
 
-The `KnightApplicationBundle` class extends the following one:
+La clase `KnightApplicationBundle` extiende a la siguiente:
 
     <?php
 
@@ -109,11 +110,11 @@ The `KnightApplicationBundle` class extends the following one:
         public function registerCommands(Application $application);
     }
 
-*Note*: Only the part we're interested in is shown here.
+*Nota*: Sólo se muestra la parte que nos interesa.
 
-Those two methods make the bundle capable of autodiscovering its commands and
-its Dependency Injection Container's (DIC) extension, if the following directory
-directory structure is used:
+Estos dos métodos hacen que el bundle sea capaz de *autodescubrir* sus comandos
+y su extensión del Contenedor de Inyección de Dependencias (DIC), si se
+utiliza la siguiente estructura de directorios:
 
     .
     ├── Command
@@ -122,118 +123,118 @@ directory structure is used:
     │   └── KnightApplicationExtension.php
     └── KnightApplicationBundle.php
 
-*Note*: the only file required in a bundle is the `KnightApplicationBundle.php`
-one.
+*Nota*: el único archivo requerido es el`KnightApplicationBundle.php`.
 
-The name of a bundle (in our example `KnightApplication`) is composed of:
+El nombre de un bundle (en nuestro ejemplo `KnightApplication`) se compone de:
 
-* the vendor name (here our customer's name: `Knight`)
-* the actual bundle name (`Application`)
+* el nombre del *vendor* (el de nuestro cliente: `Knight`)
+* el nombre real del bundle (`Application`)
 
-For your own sake, choose a small one-word name for you vendor name and for your
-bundle name (there's no hard rules but that's my advice).
+Por tu bien, elige una palabra corta como nombre del vendor y del bundle (no es
+  una condición requerida, pero te lo aconsejo).
 
-The `KnightApplicationExtension` class allows you to manipulate the DIC (more
-often you'll load a configuration file which can be located in
-`Resources/config/services.xml`).
+La clase `KnightApplicationExtension` te permite manipular el DIC (normalmente
+  cargarás un archivo de configuración localizado en
+  `Resources/config/services.xml`).
 
-And that's precisely the purpose of bundles: registering services in the
-application's DIC.
+Y precisamente ese es el propósito de los bundles: registrar servicios en el
+DIC de la aplicación.
 
-### Side note about DIC and services
+### Nota al margen sobre el DIC y los Servicios
 
-Services and Dependency Injection isn't in the scope of this series. However if
-you want to discover what it is all about, have a look at these two articles:
+Los Servicios y la Inyección de Dependencias se escapan del alcance de esta
+serie. De todos modos, si quieres descubrir de qué va eso, echa un vistazo a
+estos dos artículos:
 
 * {{ link('posts/2014-01-22-ioc-di-and-service-locator.md', 'Inversion of Control, Dependency Injection, Dependency Injection Container and Service Locator') }}
 * {{ link('posts/2014-01-29-sf2-di-component-by-example.md', 'Symfony2 Dependency Injection component, by example') }}
 
-*Note*: this is a kindly reminder about the nature of Symfony2 Components. Those
-are third party libraries which can be used on their own outside of the
-framework.
+*Nota*: esto nos indica la verdadera naturaleza de los componentes de Symfony2.
+Son librerías de terceros que pueden usarse por separado fuera del framework.
 
-### Side note about commands
+### Nota al margen sobre comandos
 
-The Symfony2 Console Component allows you to create CLI applications. This
-application can have one or many commands. To learn more about them, have a look
-at this article:
+El componente de consola de Symfony2 te permite crear aplicaciones de línea de
+comandos (CLI applications). Una aplicación puede tener uno o varios comandos.
+Para aprender más sobre comandos, echa un vistazo a este artículo:
 
 * {{ link('posts/2014-04-09-sf2-console-component-by-example.md', 'Symfony2 Console component, by example') }}
 
-*Note*: commands aren't in the scope of this article, but they're worth
-mentioning.
+*Nota*: los comandos se escapan al propósito de este artículo,
+pero es conveniente mencionarlos.
 
-## Two kinds of bundles
+## Dos tipos de bundle
 
-There's two kinds of bundle:
+Hay dos tipos de bundle:
 
-* third party application integration ones (reusable, shared between
-  applications)
-* application's ones (non reusable and dedicated to your business model)
+* de integración como librerías de terceros (reusables, se comparten entre
+  aplicaciones)
+* de aplicación (no reusables y dedicados a tu modelo de negocio)
 
-Let's take the [KnpLabs snappy library](https://github.com/KnpLabs/snappy): it
-allows you to generate a PDF from a HTML page and can be used in any
-applications (non-symfony ones, and even framework-less ones).
+Miremos a la [librería snappy de KnpLabs](https://github.com/KnpLabs/snappy): te
+permite generar un PDF de una página HTML y puede ser usaro en cualquier
+aplicación (aplicaciones no-symfony, incluso aplicaciones sin framework).
 
-The class allowing this generation is
-`Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator`: its construction is a bit
-tiresome. To fix this, we can define its construction inside the DIC and
-fortunately there's already a bundle doing it for us:
+La clase que permite esta generación es
+`Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator`: su construcción es un poco
+cansada. Para arreglarlo, podemos definir su construcción en el DIC, y
+afortunadamente ya hay un bundle que hace esto por nosotros:
 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle).
 
-That's a good example of the first kind of bundles.
+Ahí tenemos un buen ejemplo de los bundles del primer tipo.
 
-Now about the second kind: in our Symfony2 application, we'll need to integrate
-our own code to it, one day or another. We could go the long and painful way
-(writing a lot of boilerplate code and configurations), or we could use a bundle
-to do automatically the job for us!
+Sobre el segundo tipo: necesitaremos integrar nuestro propio código en nuestra
+aplicación Symfony2 un día u otro. Podríamos elegir el largo y tortuoso camino
+de escribir un montón de inicializaciones y configuraciones, ¡o podríamos usar
+un bundle que haga el trabajo por nosotros automáticamente!
 
-Sometimes, we'll find applications which have many bundles in order to
-categorize them into modules. This isn't necessary and it's a bit tiresome if
-you ask me: we can simply create folders in a unique bundle to categorize our
-modules.
+A veces, encontraremos aplicaciones que tienen muchos bundles, para así poder
+categorizar las funcionalidades en módulos. Esto no es necesario, y es un poco
+cansado, si se me permite: podemos simplemente crear carpetas en un único bundle
+para categorizar nuestros módulos.
 
-The creation of many bundles necessitates some extra manual steps. It also makes
-little sense as a bundle is supposed to be a decoupled unit: if we create a
-UserBundle, FrontendBundle, BlogBundle and ForumBundle, we'll find ourselves
-with bundles depending on one another, often with cyclic dependencies and we'll
-waste time wondering where to put new classes (which can rely on 3 bundles).
+La creación de varios bundles nencesita algunos pasos manuales adicionales.
+Además no tiene mucho sentido, ya que un bundle es, teóricamente, una unidad
+desacoplada: si creamos un UserBundle, un FrontendBundle, un BlogBundle y un
+ForumBundle, nos encontraremos con bundles dependientes unos de otros, a menudo
+con dependencias cíclicas, y perderemos el tiempo decidiendo dónde poner nuevas
+clases (que puede que necesiten a los otros tres bundles).
 
-My advice: create a single bundle for your application. If later on you find
-that inside it you created a set of classes which makes sense in other projects
-(Symfony2 and non-Symfon2 ones alike), then maybe you can extract them to
-create a third party library. And then you might create a bundle to integrate
-it inside Symfony2 applications.
+Mi consejo: crea un único bundle para tu aplicación. Si más tarde descubres que
+has creado un conjunto de clases que tendría sentido reusar en otros proyectos
+(sean proyectos Symfony2 o no), entonces quizá puedas extraerlas para crear una
+librería de terceris. Y después podrás finalmente crear un bundle para integrar
+esa librería en aplicaciones Symfony2.
 
-## Conclusion
+## Conclusión
 
-Bundles are a way to extend the Dependency Injection Container: they're the glue
-layer between your code and Symfony2 applications.
+Los bundles son una manera de extender el Contenedor de Inyección de
+Dependencias: son el pegamento que une tu código y las aplicaciones Symfony2.
 
-They follow conventions which aren't hard coded (you can override anything),
-allowing them to autodiscover some convenient classes.
+Siguen convenciones que no han sido *hard coded* (puedes sobreescribir cualqiuer
+  cosa), permitiendo *autodescubrir* algunas clases muy convenientes.
 
-Thanks for reading, in the next article, we'll create controllers!
+Gracias por leer. En el próximo artículo, ¡crearemos controladores!
 
-### Next articles
+### Próximos artículos
 
-* {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', '4: Controllers') }}
+* {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', '4: Controladores') }}
 * {{ link('posts/2014-07-20-learn-sf2-tests-part-5.md', '5: Tests') }}
-* {{ link('posts/2014-07-23-learn-sf2-conclusion.md', 'Conclusion') }}
+* {{ link('posts/2014-07-23-learn-sf2-conclusion.md', 'Conclusión') }}
 
-### Previous articles
+### Artículos anteriores
 
 * {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', '1: Composer') }}
-* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Empty application') }}
+* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Aplicación Vacía') }}
 
-### Resources
+### Recursos
 
-Here's a good article about how reusable bundles should be created:
+Aquí os dejo un buen artículo sobre cómo crear bundles reusables:
 
 * [Use only infrastructural bundles in Symfony2, by Elnur Abdurrakhimov](http://elnur.pro/use-only-infrastructural-bundles-in-symfony/)
 
-You don't like the conventions and you're ready to write a lot of boilerplate
-code and configuration? Here you go (I'd not advise you to do so, though):
+¿No te gusta seguir convenciones, y estás preparado para escribir un montón de
+código de inicialización y configuración? Aquí tienes (no te lo recomiendo):
 
 * [Should everything really be a bundle in Symfony2?](http://stackoverflow.com/questions/9999433/should-everything-really-be-a-bundle-in-symfony-2-x/10001019#10001019)
 * [Yes, you can have low coupling in a Symfony2 application](http://danielribeiro.org/blog/yes-you-can-have-low-coupling-in-a-symfony-standard-edition-application/)
@@ -242,6 +243,7 @@ code and configuration? Here you go (I'd not advise you to do so, though):
 * [Symfony2 console commands as services why, by Matthias Noback](http://php-and-symfony.matthiasnoback.nl/2013/10/symfony2-console-commands-as-services-why/)
 * [Naked bundles, slides by Matthias Noback](http://www.slideshare.net/matthiasnoback/high-quality-symfony-bundles-tutorial-dutch-php-conference-2014)
 
-I'm only putting these links because I like how they explain how Symfony2 works
-behind the hood, but I wouldn't apply them in a real world application as it
-makes too much fuss to no avail (that's my humble opinion anyway).
+Incluyo estos links únicamente porque me gusta cómo explican el funcionamiento
+de Symfony2 por detrás, pero no aplicaría lo que dicen en una aplicación real,
+ya que incluye una complejidad que no compensa (de todos modos, esta es mi
+  humilde opinión).
