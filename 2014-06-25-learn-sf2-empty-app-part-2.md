@@ -20,24 +20,24 @@ siguientes archivos:
     ├── composer.lock
     └── .gitignore
 
-Running `composer install` should create a `vendor` directory, which we ignored
-in git.
+Ejecutar `composer install` debería crear el directorio `vendor`, que hemos
+ignorado en git.
 
-Here's the [repository where you can find the actual code](https://github.com/gnugat/learning-symfony2/tree/1-composer).
+Aquí está el [el repositorio en el que encontrarás el código hasta ahora](https://github.com/gnugat/learning-symfony2/tree/1-composer).
 
-We'll now see how to create an empty Symfony2 application.
+Veamos cómo crear una aplicación Symfony2 vacía.
 
-## The front controller
+## El controlador frontal
 
-First things first, we will create an index file which will act as a front
-controller: it will be the only entry point of our application and will decide
-which page to display.
+Empecemos por el principio, vamos a crear un archivo index que actuará como
+controlador frontal: será el único punto de entrada a nuestra aplicación y
+decidirá qué página mostrar.
 
-Create its directory:
+Creemos su directorio:
 
     mkdir web
 
-Then the file:
+Después, el archivo:
 
     <?php
     // File: web/app.php
@@ -53,41 +53,44 @@ Then the file:
     $response->send();
     $kernel->terminate($request, $response);
 
-First it includes Composer's autoloader: it will require every files needed.
+Primero incluímos el autoloader de Composer: requerirá todos los archivos
+necesarios.
 
-Then we create an instance of our Kernel with the production environment and
-the debug utilities disabled. This class acts like a web server: it takes a
-HTTP request as input and returns a HTTP response as output.
+Después creamos una instancia de nuestro Kernel, en el entorno de producción
+y con las herramientas de debug deshabilitadas. Esta clase actúa como un
+servidor web: recibe una HTTP request y devuelve una HTTP response.
 
-`Request::createFromGlobals()` creates a representation of the HTTP request.
-It is filled from PHP's variable super globals (`$_GET`, `$_POST`, etc).
+`Request::createFromGlobals()` crea una representación de la request HTTP.
+Se rellena con las variables super globales de PHP (`$_GET`, `$_POST`, etc).
 
-The kernel then handles the request. To keep explanations short, let's simply
-say that it will find the controller associated to the requested URL. It is the
-controller's responsibility to return a representation of the HTTP response (see
+Entonces el kernel se hace cargo de la request. Para no dar demasiadas
+explicaciones, diremos que lo que hará será encontrar el controlador asociado
+a la url solicitada. Es responsabilidad del controlador frontal devolver una
+representación de la response HTTP (ver
 `Symfony\Component\HttpFoundation\Response`).
 
-The `$response->send()` method will simply call the PHP `header` function and
-print a string representing the response's body (usually HTML, JSON or anything
-you want).
+El método `$response->send()` simplemente llama a la función `header` de PHP, e
+imprime una cadena de texto que será el body de la response (habitualmente HTML,
+ JSON o lo que tú quieras).
 
-Finally the `$kernel->terminate()` method will call any tasks which registered
-to the `kernel.terminate` event. This alows you to return a response as fast as
-possible and then execute some actions like sending emails.
+Finalmente, el método `$kernel->terminate()` llamará a cualquier tarea suscrita
+al evento `kernel.terminate` event. Esto te permite devolver una respuesta tan
+pronto como sea posible, y después ejecutar algunas acciones más, como enviar
+emails.
 
-*Note*: events aren't in the scope of this article, but they're worth
-mentioning.
+*Nota*: los eventos se escapan al propósito de este artículo, pero es
+conveniente mencionarlos.
 
-## Creating the application's kernel
+## Creando el kernel de la aplicación
 
-[The HttpKernel component](http://symfony.com/doc/current/components/http_kernel/introduction.html)
-provides you with a `Kernel` class, which we will extend.
+[El componente HttpKernel](http://symfony.com/doc/current/components/http_kernel/introduction.html)
+nos da la clase `Kernel`, a la que extenderemos.
 
-Create the following directory:
+Crea el siguiente directorio:
 
     mkdir app
 
-And then the kernel file:
+Y después el archivo del kernel:
 
     <?php
     // File: app/AppKernel.php
@@ -110,64 +113,67 @@ And then the kernel file:
         }
     }
 
-This class will load the project's configuration. This is also where you
-register the project's bundles. We'll talk more about bundles in the next
-article, for now the only thing you need to know is that they're like plugins.
+Esta clase cargará la configuración del proyecto. También es aquí donde
+registrarás los bundles del proyecto. Hablaremos más sobre bundles en el
+próximo artículo, por ahora lo único que necesitas saber es que son una especie
+de plugins.
 
-The Kernel has the responsibility to look at every registered bundle to retrieve
-their configuration.
+El kernel tiene la responsabilidad de buscar en cada bundle registrado para
+obtener su configuración.
 
-The `FrameworkBundle` defines some services and allows you to choose what to
-enable via configuration.
+El bundle `FrameworkBundle` define algunos servicios que te permiten elegir
+qué activar desde la configuración.
 
-*Note*: Services are objects which do one thing and do it well. They provide
-exactly what they're called: a service. We'll learn more about them in one of
-the next article.
+*Nota*: Los servicios son objetos que hacen una sola cosa, y la hacen bien.
+Ofrecen exactamente lo que anuncian: un servicio. Aprenderemos más sobre ellos
+en uno de los próximos artículos.
 
-We need to put some configuration in order to be able to make it work properly.
+Necesitamos definir algunas configuraciones para poder hacerlo funcionar
+debidamente.
 
-Create its directory:
+Crea su directorio:
 
     mkdir app/config
 
-And the the YAML file:
+Y el archivo YAML de configuración:
 
     # File: app/config/config.yml
     framework:
         secret: "Three can keep a secret, if two of them are dead."
 
-The `secret` parameter is used as a seed to generate random strings (for e.g.
-CSRF tokens).
+El parámetro `secret` se usa como semilla para generar cadenas aleatorias (por
+  ejemplo tokens CSRF).
 
-Now that we have our application structure, let's commit it:
+Ahora que tenemos la estructura de nuestra aplicación, subámosla al repositorio:
 
     git add -A
-    git commit -m 'Created application structure'
+    git commit -m 'Estructura de la aplicación creada'
 
-### Logs and cache
+### Logs y caché
 
-You'll also need to create `logs` and `cache` directories:
+Necesitarás crear también los directorios `logs` y `cache`:
 
     mkdir app/{cache,logs}
     touch app/{cache,logs}/.gitkeep
 
-Git doesn't allow to commit empty directory, hence the `.gitkeep` files.
+Git no permite subir al repositorio un directorio vacío, de ahí los archivos
+`.gitkeep`.
 
-Because files in these directories are temporaries, we'll ignore them:
+Dado que los archivos en estos directorios serán temporales, los ignoraremos:
 
     echo '/app/cache/*' >> .gitignore
     echo '/app/logs/*' >> .gitignore
     git add -A
     git add -f app/cache/.gitkeep
     git add -f app/logs/.gitkeep
-    git commit -m 'Created temporary directories'
+    git commit -m 'Directorios temporales creados'
 
-### Apache configuration
+### Configuración de Apache
 
-In order for your website to be browsed, you'll need to configure your web
-server. This configuration is well explained
-[in the documentation](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html),
-so here's a dump of an apache vhost:
+Para que tu sitio sea accesible, necesitarás configurar tu servidor web. El
+proceso está muy bien explicado
+[en la documentación](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html),
+así que esta es la pinta de un vhost de apache:
 
     <VirtualHost *:80>
         ServerName knight.local
@@ -190,25 +196,25 @@ so here's a dump of an apache vhost:
         </Directory>
     </VirtualHost>
 
-If you run into some permission problem (like writing in `cache` and `logs`),
-you might consider to change `APACHE_RUN_USER` and `APACHE_RUN_GROUP`
-environment variables present in `/etc/apache2/envvars` to your own user and
-group.
+Si te encuentras con problemas de permisos (como no poder escribir en `cache`
+  y `logs`), puede que quieras cambiar las variables de entorno
+  `APACHE_RUN_USER` y `APACHE_RUN_GROUP`, presentes en `/etc/apache2/envvars`,
+  por tu propio usuario y su grupo.
 
-## Conclusion
+## Conclusión
 
-A Symfony2 application follows this pattern: a front controller associate an URL
-to a controller which takes a HTTP request and returns a HTTP response.
+Una aplicación Symfony2 sigue este patrón: un controlador frontal asocia una
+URL a un controlador, que recoge una request HTTP y devuelve una response HTTP.
 
-The next article will be all about bundles, so stay tuned :) .
+El siguiente artículo va sobre bundles, así que permanece atento :) .
 
-### Next articles
+### Próximos artículos
 
 * {{ link('posts/2014-07-02-learn-sf2-bundles-part-3.md', '3: Bundles') }}
-* {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', '4: Controllers') }}
+* {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', '4: Controladores') }}
 * {{ link('posts/2014-07-20-learn-sf2-tests-part-5.md', '5: Tests') }}
-* {{ link('posts/2014-07-23-learn-sf2-conclusion.md', 'Conclusion') }}
+* {{ link('posts/2014-07-23-learn-sf2-conclusion.md', 'Conclusión') }}
 
-### Previous articles
+### Artículos anteriores
 
 * {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', '1: Composer') }}
