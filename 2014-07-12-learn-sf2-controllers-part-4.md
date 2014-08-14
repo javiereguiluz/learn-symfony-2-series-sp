@@ -1,22 +1,22 @@
 ---
 layout: post
-title: Learn Symfony2 - part 4: Controllers
+title: Aprende Symfony2 - parte 4: Controladores
 tags:
     - Symfony2
-    - technical
-    - Learn Symfony2 series
+    - técnico
+    - serie Aprende Symfony2
 ---
 
-This is the fourth article of the series on learning
-[the Symfony2 framework](http://symfony.com/).
-Have a look at the three first ones:
+Este es el cuarto artículo de la serie para aprender sobre
+[el framework Symfony2](http://symfony.com/).
+Echa un vistazo a los tres primeros:
 
 1. {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', 'Composer') }}
-2. {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', 'Empty application') }}
+2. {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', 'Aplicación Vacía') }}
 3. {{ link('posts/2014-07-02-learn-sf2-bundles-part-3.md', 'Bundles') }}
 
-In the previous articles we created a one-bundled empty application with the
-following files:
+En los anteriores artículos comenzamos a crear una aplicación vacía con los
+siguientes archivos:
 
     .
     ├── app
@@ -37,17 +37,18 @@ following files:
     └── web
         └── app.php
 
-Running `composer install` should create a `vendor` directory, which we ignored
-with git.
+Ejecutar `composer install` debería crear el directorio `vendor`, que hemos
+ignorado en git.
 
-Here's the [repository where you can find the actual code](https://github.com/gnugat/learning-symfony2/releases/tag/3-bundles).
+Aquí está el [el repositorio en el que encontrarás el código hasta ahora](https://github.com/gnugat/learning-symfony2/releases/tag/3-bundles).
 
-In this article, we'll learn more about the routing and the controllers.
+En este artículo, aprenderemos más sobre el enrutamiento y los controladores.
 
-## Discovering routing and controller
+## Conociendo el enrutamiento y los controladores
 
-In order to get familiar with the routing and controllers, we will create a
-route which returns nothing. The first thing to do is to configure the router:
+Para familiarizarnos con el enrutamiento y los controladores, crearemos una
+ruta que no devuelve nada. Lo primero que hay que hacer es configurar el
+router:
 
     # File: app/config/app.yml
     framework:
@@ -55,7 +56,7 @@ route which returns nothing. The first thing to do is to configure the router:
         router:
             resource: %kernel.root_dir%/config/routing.yml
 
-We can now write our routes in a separate file:
+Ahora podemos escribir nuestras rutas en un archivo separado:
 
     # File: app/config/routing.yml
     what_john_snow_knows:
@@ -65,22 +66,22 @@ We can now write our routes in a separate file:
         defaults:
             _controller: KnightApplicationBundle:Api:ygritte
 
-As you can see, a route has:
+Como ves, una ruta tiene:
 
-* a name (`what_john_snow_knows`)
-* a path (`/api/ygritte`)
-* one or many HTTP verbs (`GET`)
-* a controller `Knight\ApplicationBundle\Controller\ApiController::ygritteAction()`
+* un nombre (`what_john_snow_knows`)
+* a patrón (`/api/ygritte`)
+* uno o más verbos HTTP (`GET`)
+* un controlador `Knight\ApplicationBundle\Controller\ApiController::ygritteAction()`
 
-*Note*: the `_controller` parameter is a shortcut composed of three parts, which
-are the name of the bundle, then the unprefixed controller name and finally the
-unprefixed method name.
+*Nota*: el parámetro `_controller` es un atajo compuesto de  tres partes, que
+son el nombre del bundle, después el nombre del controlador sin sufijo, y
+finalmente el nombre del método sin sufijo.
 
-Now we need to create the following directory:
+Ahora necesitamos crear el siguiente directorio:
 
     mkdir src/Knight/ApplicationBundle/Controller
 
-And to create the controller class:
+Y la siguiente clase o controlador:
 
     <?php
     // File: src/Knight/ApplicationBundle/Controller/ApiController.php
@@ -99,27 +100,28 @@ And to create the controller class:
         }
     }
 
-To test it, I'd advise you to use a HTTP client. Let's install
+Para probarlo, te recomiendo usar un cliente HTTP. Instalemos
 [HTTPie, the CLI HTTP client](http://httpie.org):
 
     sudo apt-get install python-pip
     sudo pip install --upgrade httpie
 
-We can now test our webservice:
+Ya podemos probar nuestro webservice:
 
     http GET knight.local/api/ygritte
 
-The first line should be `HTTP/1.1 204 No Content`.
+La primera línea debería ser `HTTP/1.1 204 No Content`.
 
-## Posting data
+## Posteando datos
 
-Our scrum master and product owner managed to write a user story for us:
+Nuestro *scrum master* y nuestro jefe de negocio han escrito un camino para
+nosotros:
 
-    As a Knight of Ni
-    I want a webservice which says "ni"
-    In order to get a shrubbery
+    Como Caballero de Ni
+    Quiero un webservice que diga "ni"
+    Para conseguir una almáciga
 
-This means we're going to need the following route:
+Esto significa que vamos a necesitar la siguiente ruta:
 
     # File: app/config/routing.yml
     ni:
@@ -129,9 +131,10 @@ This means we're going to need the following route:
         defaults:
             _controller: KnightApplicationBundle:Api:ni
 
-Our controller will retrieve the posted value (named `offering`), check if it
-is a `shrubbery` and send back a response containing either `Ni` (on error) or
-`Ecky-ecky-ecky-ecky-pikang-zoop-boing-goodem-zoo-owli-zhiv` (on success):
+Nuestro controlador recogerña el valor posteado (llamado `offering`), comprobará
+si es una almáciga, y devolverá una respuesta que contenga `Ni` (en caso de
+  error) o `Ecky-ecky-ecky-ecky-pikang-zoop-boing-goodem-zoo-owli-zhiv` (en
+  caso de éxito):
 
     <?php
     // File: src/Knight/ApplicationBundle/Controller/ApiController.php
@@ -161,14 +164,14 @@ is a `shrubbery` and send back a response containing either `Ni` (on error) or
         }
     }
 
-The `JsonResponse` class will convert the array into JSON and set the proper
-HTTP headers.
+La clase `JsonResponse` convertirá el array a JSON y establecerá los headers
+HTTP correctos.
 
-If we try to submit something fishy like this:
+Si intentamos enviar algo sospechoso, como esto:
 
-    http POST knight.local/api/ni offering=hareng
+    http POST knight.local/api/ni offering=arenque
 
-Then we should have a response similar to:
+Deberíamos obtener una respuesta parecida a:
 
     HTTP/1.1 422 Unprocessable Entity
     Cache-Control: no-cache
@@ -181,11 +184,11 @@ Then we should have a response similar to:
         "answer": "Ni"
     }
 
-And when we submit the correct offering:
+Y cuando enviemos la ofrenda correcta:
 
     http POST knight.local/api/ni offering=shrubbery
 
-Then we should have something similar to:
+Deberñiamos obtener algo similar a:
 
     HTTP/1.1 200 OK
     Cache-Control: no-cache
@@ -198,9 +201,9 @@ Then we should have something similar to:
         "answer": "Ecky-ecky-ecky-ecky-pikang-zoop-boing-goodem-zoo-owli-zhiv"
     }
 
-## Request's API
+## API de la clase Request
 
-Here's part of the Request's API:
+Esta es parte de la API de la clase Request:
 
     <?php
 
@@ -228,36 +231,37 @@ Here's part of the Request's API:
         public function getContent($asResource = false);
     }
 
-We used `createFromGlobals` in our front controller (`web/app.php`), it does
-excalty what it says: it initializes the Request from the PHP superglobals
-(`$_POST`, `$_GET`, etc).
+Usamos `createFromGlobals` en nuestro controlador frontal (`web/app.php`), y
+hace exactamente lo que dice: inicializa la Request desde las variables super
+globales de PHP (`$_POST`, `$_GET`, etc).
 
-The `create` method is really handful in tests as we won't need to override the
-values in PHP's superglobals.
+El método `create` es realmente útil en tests, dado que no necesitaremos
+sobreescribir los valores de las variables super globales de PHP.
 
-The attributes here listed are all instances of
-`Symfony\Component\HttpFoundation\ParameterBag`, which is like an object
-oriented array with `set`, `has` and `get` methods (amongst others).
+Todos los atributos que aparecen listados son instancias de la clase
+`Symfony\Component\HttpFoundation\ParameterBag`, que es como un array orientado
+a objetos, con los métodos `set`, `has` y `get` (entre otros).
 
-When you submit a form, your browser automatically sets the HTTP request's
-header `Content-Type` to `application/x-www-form-urlencoded`, and the form
-values are sent in the request's content like this:
+Cuando envías un formulario, tu navegador establece automáticamente el parámetro
+ `Content-Type`del header de la petición HTTP a
+ `application/x-www-form-urlencoded`, y los valores del formulario son enviados
+ en el contenido  de la peticion de esta forma:
 
-    offering=hareng
+    offering=arenque
 
-PHP understands this and will put the values in the `$_POST` superglobal. This
-mean you could retrieve it like this:
+PHP entiende esta petición, y pondrá los valores en la variable super global
+`$_POST`. Esto significa que podrás recuperarlos así:
 
     $request->request->get('offering');
 
-However, when we submit something in JSON with the `Content-Type` set to
-`application/json`, PHP doesn't populate `$_POST`. You need to retrieve the raw
-data with `getContent` and to convert it using `json_decode`, as we did in our
-controller.
+De todos modos, cuando enviamos algo en JSON con el `Content-Type`
+`application/json`, PHP no rellena `$_POST`. Tendrás que recuperar los datos en
+crudo con `getContent` y convertirlos usando `json_decode`, como hemos hecho en
+nuestro controlador.
 
-## Response's API
+## API de la clase Response
 
-Here's a part of the Response's API:
+Esta es parte de la API de la clase Response:
 
     <?php
 
@@ -283,46 +287,48 @@ Here's a part of the Response's API:
         public function isSuccessful();
     }
 
-There's a lot of HTTP status code constants, so I've selected only those I'd use
-the most.
+Hay muchas constantes de códigos de estado HTTP, así que he seleccionado
+solamente los que más uso.
 
-You can set and get the Response's headers via a public property which is also
-a `ParameterBag`.
+Puedes establecer y recuperar los headers de Response's vía una propiedad
+pública, que también es un `ParameterBag`.
 
-The constructor allows you to set the content, status code and headers.
+El constructor te permite establecer el contenido, el código de estado y los
+headers.
 
-The three other methods are mostly used in tests. There's a lot of `is` methods
-to check the type of the request, but usually you'll just want to make sure the
-response is successful.
+Los otros tres métodos se usan sobre todo en tests. Hay muchos métodos `is` para
+comprobar el tipo de petición, pero normalmente lo único que te interesará será
+saber que la respuesta es satisfactoria.
 
-You can find other types of responses:
+Otros tipos de respuesta:
 
-* `JsonResponse`: sets the `Content-Type` and converts the content into JSON
-* `BinaryFileResponse`: sets headers and attaches a file to the response
-* `RedirectResponse`: sets the target location for a redirection
-* `StreamedResponse`: useful for streaming large files
+* `JsonResponse`: establece el `Content-Type` y convierte el contenido a JSON
+* `BinaryFileResponse`: establece los headers y adjunta un archivo a la
+ respuesta
+* `RedirectResponse`: establece el destino para una redirección
+* `StreamedResponse`: útil para el streaming de archivos muy grandes
 
-## Conclusion
+## Conclusión
 
-Symfony2 is an HTTP framework which primary's public API are the controllers:
-those receive a Request as parameter and return a Response. All you have to do
-is to create a controller, write some configuration in order to link
-it to an URL and you're done!
+Symfony2 es un framework HTTP, cuyas principales API son los controladores:
+reciben como parámetro una petición y devuelven una respuesta. Todo lo que
+tenemos que hacer es crear un controlador, escribir una mínima configuración
+para enlazarlo a una URL ¡y estaremos listos!
 
-Do not forget to commit your work:
+No olvides subir tu trabajo al repositorio:
 
     git add -A
-    git commit -m 'Created Ni route and controller'
+    git commit -m 'Creada la ruta Ni y el controlador'
 
-The next article should be about tests: stay tuned!
+El próximo artículo debería tratar sobre tests: ¡permanece atento!
 
-### Next articles
+### Próximos artículos
 
 * {{ link('posts/2014-07-20-learn-sf2-tests-part-5.md', '5: Tests') }}
-* {{ link('posts/2014-07-23-learn-sf2-conclusion.md', 'Conclusion') }}
+* {{ link('posts/2014-07-23-learn-sf2-conclusion.md', 'Conclusión') }}
 
-### Previous articles
+### Artículos anteriores
 
 * {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', '1: Composer') }}
-* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Empty application') }}
+* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Aplicación Vacía') }}
 * {{ link('posts/2014-07-02-learn-sf2-bundles-part-3.md', '3: Bundles') }}
