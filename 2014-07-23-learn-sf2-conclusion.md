@@ -1,24 +1,24 @@
 ---
 layout: post
-title: Learn Symfony2 - Conclusion
+title: Aprende Symfony2 - Conclusión
 tags:
     - Symfony2
-    - technical
-    - Learn Symfony2 series
+    - técnico
+    - serie Aprende Symfony2
 ---
 
-This is the conclusion of the series on learning
-[the Symfony2 framework](http://symfony.com/).
-Have a look at the five first ones:
+Este es el resumen de la serie para aprender sobre
+[el framework Symfony2](http://symfony.com/).
+Echa un vistazo a los artículos que la componen:
 
 1. {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', 'Composer') }}
-2. {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', 'Empty application') }}
+2. {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', 'Aplicación Vacía') }}
 3. {{ link('posts/2014-07-02-learn-sf2-bundles-part-3.md', 'Bundles') }}
-4. {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', 'Controllers') }}
+4. {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', 'Controladores') }}
 5. {{ link('posts/2014-07-20-learn-sf2-tests-part-5.md', 'Tests') }}
 
-In the previous articles we created a tested application for the Knight of Ni
-with the following files:
+En los anteriores artículos comenzamos a crear una aplicación testada con los
+siguientes archivos:
 
     .
     ├── app
@@ -47,70 +47,72 @@ with the following files:
     └── web
         └── app.php
 
-Running `composer install` should create a `vendor` directory, which we ignored
-with git.
+Ejecutar `composer install` debería crear el directorio `vendor`, que hemos
+ignorado en git.
 
-Here's the [repository where you can find the actual code](https://github.com/gnugat/learning-symfony2/tree/5-tests).
+Aquí está el [el repositorio en el que encontrarás el código hasta ahora](https://github.com/gnugat/learning-symfony2/tree/5-tests).
 
-This article will be like a cheat sheet of what we saw in the previous ones.
+Este artículo será una *cheat sheet* de todo lo visto en la serie.
 
 ## Composer
 
-[Composer](https://getcomposer.org/) will help you install and update third
-party libraries.
+[Composer](https://getcomposer.org/) te ayuda a instalar y actualizar librerías
+de terceros.
 
-Download it once for all and install it in your global binaries:
+Descárgalo una sola vez e instálalo en los binarios globales de tu SO:
 
     curl -sS https://getcomposer.org/installer | php
     sudo mv ./composer.phar /usr/local/bin/composer
 
-It should then be executable like this: `composer`.
+Deberías poder ejecutarlo así: `composer`.
 
-* install a third party library: `composer require [--dev] <vendor/name:version>`
-* download the project's third party libraries: `composer install`
-* update the project's third party libraries: `composer update`
+* instalar una librería de terceros: `composer require [--dev] <vendor/name:version>`
+* descargar las librerías de terceros del proyecto: `composer install`
+* actualizar las librerías de terceros del proyecto: `composer update`
 
-The available third party libraries can be found on
+Las librerías de terceros disponibles se pueden encontrar en
 [Packagist](https://packagist.org/).
 
-Here's an explanation of [Composer version constraints by Igor](https://igor.io/2013/01/07/composer-versioning.html).
+Aquí tienes la
+[explicación de Igor sobre las constraints de versiones en Composer](https://igor.io/2013/01/07/composer-versioning.html).
 
-In these articles, we create a project from scratch, but the recommended way of
-starting a Symfony2 application is to use the Composer bootstrap command:
+En estos artículos hemos creado un proyecto desde cero, pero la manera
+recomendada de comenzar una aplicación Symfony2 es usar el comando de
+inicialización de Composer:
 `composer create-project <vendor/name> <path-to-install>`
 
-You could use the [Symfony Standard Edition](https://github.com/symfony/symfony-standard)
-(`symfony/framework-standard-edition`), or any other distribution.
+Puedes usar la [Symfony Standard Edition](https://github.com/symfony/symfony-standard)
+(`symfony/framework-standard-edition`), o cualquier otra distribución.
 
-I'd advise you to use an empty boilerplate with the
+Te aconsejo que utilices una distribución vacía como
 [Symfony Empty Edition](https://github.com/gnugat/symfony-empty):
 
     composer create-project gnugat/symfony-framework-empty-edition <path-to-install>
 
-*Tip*: For the production server, use this command to install the project's
-dependencies (the third party libraries):
+*Consejo*: En el servidor de producción, usa este comando para instalar las
+dependencias del proyecto (las librerías de terceros):
 
     composer install --no-dev --optimize
 
 ## Bundles
 
-They integrate your code with the framework. More specifically, they configure
-the Kernel's dependency injection container.
+Integran tu código con el framework. Más concretamente, configuran el contenedor
+de inyección de dependencias del kernel.
 
-*Note*: To learn more about Dependency Injection, have a look at the following
-articles:
+*Nota*: Para saber  más sobre Inyección de Dependencias, echa un vistazo a los
+siguientes artículos:
 
 * {{ link('posts/2014-01-22-ioc-di-and-service-locator.md', 'Inversion of Control, Dependency Injection, Dependency Injection Container and Service Locator') }}
 * {{ link('posts/2014-01-29-sf2-di-component-by-example.md', 'Symfony2 Dependency Injection component, by example') }}
 
-The only bundle you'll need to create is the `ApplicationBundle`, where all your
-code will be. Here's how to create a bundle:
+El único bundle que necesitas crear es el `ApplicationBundle`, donde estará
+todo tu código. Así es como se crea el bundle:
 
-1. create its directory: `mkdir -p src/<Vendor>/<Name>Bundle`
-2. create its class: `$EDITOR src/<Vendor>/<Name>Bundle/<Vendor><Name>Bundle.php`
-3. register it in the kernel: `$EDITOR app/AppKernel.php`
+1. crea su directorio: `mkdir -p src/<Vendor>/<Name>Bundle`
+2. crea su clase: `$EDITOR src/<Vendor>/<Name>Bundle/<Vendor><Name>Bundle.php`
+3. regístralo en el kernel: `$EDITOR app/AppKernel.php`
 
-A Bundle class looks like this:
+Una clase Bundle tiene esta pinta:
 
     <?php
     // File: src/Knight/ApplicationBundle/KnightApplicationBundle.php
@@ -123,22 +125,22 @@ A Bundle class looks like this:
     {
     }
 
-## Application
+## Aplicación
 
-In your application, there's only a few files related to the Symfony2 framework.
-Here's the list of the ones you'll usually edit.
+En tu aplicación, hay muy pocos archivos relacionados con el framework
+Symfony2. Esta es la lista de los que editarás normalmente:
 
-### The application's kernel
+### El kernel de la aplicación
 
-The `app/AppKernel.php` file is where the bundles are registered and where the
-configuration is loaded. You'll only need to edit it when you install a new
-bundle.
+El archivo `app/AppKernel.php` es donde los bundles se registran y donde se
+carga la configuración. Sólo necesitarás editarlo cuando instales un bundle
+nuevo.
 
-Here's how we would proceed: first install the bundle via Composer:
+Manera de proceder: primero instala el bundle vía Composer:
 
     composer require [--dev] <vendor/name:version>
 
-Then register it in the application's kernel:
+Después regístralo en el kernel de la aplicación:
 
     <?php
     // File: app/AppKernel.php
@@ -179,10 +181,10 @@ Then register it in the application's kernel:
         }
     }
 
-### The routing configuration
+### La configuración del enrutamiento
 
-The `app/config/routing.yml` file is where you will link a controller's action
-to an URL. Here's an example:
+El archivo `app/config/routing.yml` es donde enlazarás la acción de un
+controlador a una URL. Ejemplo:
 
     # File: app/config/routing.yml
     ni:
@@ -199,21 +201,22 @@ to an URL. Here's an example:
         defaults:
             _controller: KnightApplicationBundle:Api:question
 
-As you can see, you can tell the routing to use placeholders, which will be then
-available in the controller via the Request object:
+Como ves, puedes definir las rutas usando *placeholders*, que después estarán
+disponibles en el controlador vía el objeto Request:
 
     $request->query->get('number'); // query is an instance of ParameterBag
 
-### Controllers, your entry point
+### Controladores, tu punto de entrada
 
-Each route is associated to a controller's action.
+Cada ruta se asocia a la acción de un controlador.
 
-A controller is a class located in `src/<Vendor>/ApplicationBundle/Controller`,
-suffixed with `Controller`.
+Un controlador es una clase localizada en
+`src/<Vendor>/ApplicationBundle/Controller`,
+con el sufijo `Controller`.
 
-An action is a controller's public method, suffixed with `Action`, which takes
-a `Request $request` parameter and must return an instance of the `Response`
-object:
+Una acción es un método público de un contnrolador, con el sufijo `Action`,
+que recibe un parámetro `Request $request`y debe devolver una instancia del
+objeto `Response`:
 
     <?php
     // File: src/Knight/ApplicationBundle/Controller/ApiController.php
@@ -243,18 +246,19 @@ object:
         }
     }
 
-*Note*: you can create sub-directories in `src/<Vendor>/ApplicationBundle/Controller`,
-allowing you to categorize your controllers. In the routing, this would look
-like this: `KnightApplicationBundle:Subdirectory\Controller:action`.
+*Nota*: puedes crear sub-directorios en
+`src/<Vendor>/ApplicationBundle/Controller`, permitiéndote así categorizar tus
+controladores. En la definición de tus rutas, se vería así:
+`KnightApplicationBundle:Subdirectory\Controller:action`.
 
-### Functional tests
+### Tests funcionales
 
-Of course you can use any test framework with a Symfony2 project. PHPUnit is one
-of them, and a popular one, so we'll use it for our examples.
+Puedes usar cualquier framework de testing en un proyecto Symfony2. PHPUnit es
+uno de ellos, y muy popular, por lo que es el que usamos en nuestros ejemplos.
 
-Functional tests mirror the controllers and check if the status code is
-successful. If you're building an API, you can check more precisely the status
-code:
+Los tests funcionales replican los controladores y comprueban si el código de
+estado es correcto. Si estás construyendo una API, puedes comprobar en mayor
+profundidad si el código de estado es el esperado:
 
     <?php
     // File: src/Knight/ApplicationBundle/Tests/Controller/ApiControllerTest.php
@@ -290,52 +294,54 @@ code:
         }
     }
 
-The `WebTestCase` class is provided by the framework: it creates an application
-(just like we do in `web/app.php`), so you can send requests and test the
-response.
+La clase `WebTestCase` nos la proporciona el framework: crea una aplicación
+(como hacemos nosotros en `web/app.php`), por lo que puedes enviar peticiones y
+testear las respuestas.
 
-### Where to put your own code
+### Dónde poner tu propio código
 
-You can put your code anywhere in `src/<Vendor>/ApplicationBundle`.
+Puedes poner tu código en cualquier punto de `src/<Vendor>/ApplicationBundle`.
 
-Who said you needed to decouple your code from Symfony2? You can already write
-decoupled code!
+¿Quién dijo que debes desacoplar tu código de Symfony2? ¡Puedes escribirlo
+desacoplado directamente!
 
-A convention is to create directories named after the type of objects it holds.
-For example the `Controller` contains controller classes (which are suffixed
-with `Controller`). You don't have to follow it though (except for controllers
-and commands): use your best judgement!
+La convención es crear directorios con nombres relativos a los objetos que
+contienen. Por ejemplo, el directorio `Controller` contiene clases controladoras
+(a las que se añade el sufijo `Controller`). No tienes por qué seguir estas
+convenciones (salvo para los controladores y los comandos): ¡Organízate como
+prefieras!
 
-## Conclusion
+## Conclusión
 
-Symfony2 gets out of your way, the only class from the framework we need to use
-is the controller, the request and the response.
+Symfony2 se aparta de tu camino, las únicas clases del framework que necesitamos
+usar son el controlador, la request y la response.
 
-The workflow is really simple:
+El flujo de trabajo es realmente simple:
 
-1. Symfony2 converts the HTTP request into a `Request` object
-2. the routing allows to execute a controller related to the current URL
-3. the controller receives the `Request` object as a parameter and must return a
-   `Response` object
-4. Symfony2 converts the `Response` object into the HTTP response
+1. Symfony2 convierte la petición HTTP en el objeto `Request`
+2. el componente de routing permite que se ejecute el controlador relacionado
+con la URL actual
+3. el controlador recibe el objeto `Request` como parámetro, y debe devolver
+ un objeto `Response`
+4. Symfony2 convierte el objeto `Response` en la respuesta HTTP
 
-### What should we do now?
+### Qué debería hacer a continuación?
 
-Practice.
+Practicar.
 
-We now know the strict minimum about Symfony2, and the only way to learn more is
-to practice, encounter new use cases, find answers in the
-[documentation](http://symfony.com/doc/current/index.html) and ask questions on
-[StackOverflow](http://stackoverflow.com/questions/tagged/symfony2) (if they
-haven't been already asked).
+Sabemos lo estrictamente necesario sobre Symfony2, y la única manera de aprender
+más es practicar, encontrar nuevos casos de uso, encontrar respuestas en la
+[documentación](http://symfony.com/doc/current/index.html) y pregntar en
+[StackOverflow](http://stackoverflow.com/questions/tagged/symfony2) (si nadie
+  lo ha preguntado antes).
 
-If you really want to master Symfony2, then stay tuned: I'll start writing a new
-series of articles!
+Si realmente quieres dominar Symfony2, permanece atento: ¡Escribiré una nueva
+serie de artículos!
 
-### Previous articles
+### Artículos previos
 
 * {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', '1: Composer') }}
-* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Empty application') }}
+* {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Aplicación vacía') }}
 * {{ link('posts/2014-07-02-learn-sf2-bundles-part-3.md', '3: Bundles') }}
-* {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', '4: Controllers') }}
+* {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', '4: Controladores') }}
 * {{ link('posts/2014-07-20-learn-sf2-tests-part-5.md', '5: Tests') }}
