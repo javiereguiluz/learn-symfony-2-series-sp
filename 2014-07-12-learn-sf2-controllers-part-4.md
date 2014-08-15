@@ -15,8 +15,8 @@ Echa un vistazo a los tres primeros:
 2. {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', 'Aplicación Vacía') }}
 3. {{ link('posts/2014-07-02-learn-sf2-bundles-part-3.md', 'Bundles') }}
 
-En los anteriores artículos comenzamos a crear una aplicación vacía con los
-siguientes archivos:
+En los anteriores artículos comenzamos a crear una aplicación vacía de un solo
+bundle con los siguientes archivos:
 
     .
     ├── app
@@ -69,7 +69,7 @@ Ahora podemos escribir nuestras rutas en un archivo separado:
 Como ves, una ruta tiene:
 
 * un nombre (`what_john_snow_knows`)
-* a patrón (`/api/ygritte`)
+* un patrón (`/api/ygritte`)
 * uno o más verbos HTTP (`GET`)
 * un controlador `Knight\ApplicationBundle\Controller\ApiController::ygritteAction()`
 
@@ -112,9 +112,9 @@ Ya podemos probar nuestro webservice:
 
 La primera línea debería ser `HTTP/1.1 204 No Content`.
 
-## Posteando datos
+## Enviando datos a nuestra aplicacón
 
-Nuestro *scrum master* y nuestro jefe de negocio han escrito un camino para
+Nuestro *scrum master* y nuestro jefe de negocio han escrito un esquema para
 nosotros:
 
     Como Caballero de Ni
@@ -131,10 +131,11 @@ Esto significa que vamos a necesitar la siguiente ruta:
         defaults:
             _controller: KnightApplicationBundle:Api:ni
 
-Nuestro controlador recogerña el valor posteado (llamado `offering`), comprobará
-si es una almáciga, y devolverá una respuesta que contenga `Ni` (en caso de
-  error) o `Ecky-ecky-ecky-ecky-pikang-zoop-boing-goodem-zoo-owli-zhiv` (en
-  caso de éxito):
+Nuestro controlador recogerá el valor posteado (llamado `offering`), comprobará
+si es una almáciga (*shrubbery*), y devolverá una respuesta que contenga `Ni`
+(en caso de error) o
+`Ecky-ecky-ecky-ecky-pikang-zoop-boing-goodem-zoo-owli-zhiv` (en caso de
+  acierto):
 
     <?php
     // File: src/Knight/ApplicationBundle/Controller/ApiController.php
@@ -164,8 +165,8 @@ si es una almáciga, y devolverá una respuesta que contenga `Ni` (en caso de
         }
     }
 
-La clase `JsonResponse` convertirá el array a JSON y establecerá los headers
-HTTP correctos.
+La clase `JsonResponse` convertirá el array a JSON y establecerá las cabeceras
+HTTP correctas.
 
 Si intentamos enviar algo sospechoso, como esto:
 
@@ -232,29 +233,29 @@ Esta es parte de la API de la clase Request:
     }
 
 Usamos `createFromGlobals` en nuestro controlador frontal (`web/app.php`), y
-hace exactamente lo que dice: inicializa la Request desde las variables super
-globales de PHP (`$_POST`, `$_GET`, etc).
+hace exactamente lo que dice: inicializa la Request desde las variables
+superglobales de PHP (`$_POST`, `$_GET`, etc).
 
 El método `create` es realmente útil en tests, dado que no necesitaremos
-sobreescribir los valores de las variables super globales de PHP.
+sobreescribir los valores de las variables superglobales de PHP.
 
 Todos los atributos que aparecen listados son instancias de la clase
 `Symfony\Component\HttpFoundation\ParameterBag`, que es como un array orientado
 a objetos, con los métodos `set`, `has` y `get` (entre otros).
 
 Cuando envías un formulario, tu navegador establece automáticamente el parámetro
- `Content-Type`del header de la petición HTTP a
+ `Content-Type` de la cabecera de la petición HTTP a
  `application/x-www-form-urlencoded`, y los valores del formulario son enviados
  en el contenido  de la peticion de esta forma:
 
     offering=arenque
 
-PHP entiende esta petición, y pondrá los valores en la variable super global
+PHP entiende esta petición, y pondrá los valores en la variable superglobal
 `$_POST`. Esto significa que podrás recuperarlos así:
 
     $request->request->get('offering');
 
-De todos modos, cuando enviamos algo en JSON con el `Content-Type`
+Sin embargo, cuando enviamos algo en JSON con el `Content-Type`
 `application/json`, PHP no rellena `$_POST`. Tendrás que recuperar los datos en
 crudo con `getContent` y convertirlos usando `json_decode`, como hemos hecho en
 nuestro controlador.
@@ -290,11 +291,11 @@ Esta es parte de la API de la clase Response:
 Hay muchas constantes de códigos de estado HTTP, así que he seleccionado
 solamente los que más uso.
 
-Puedes establecer y recuperar los headers de Response's vía una propiedad
+Puedes establecer y recuperar las cabeceras de Response vía una propiedad
 pública, que también es un `ParameterBag`.
 
-El constructor te permite establecer el contenido, el código de estado y los
-headers.
+El constructor te permite establecer el contenido, el código de estado y las
+cabeceras.
 
 Los otros tres métodos se usan sobre todo en tests. Hay muchos métodos `is` para
 comprobar el tipo de petición, pero normalmente lo único que te interesará será
@@ -303,7 +304,7 @@ saber que la respuesta es satisfactoria.
 Otros tipos de respuesta:
 
 * `JsonResponse`: establece el `Content-Type` y convierte el contenido a JSON
-* `BinaryFileResponse`: establece los headers y adjunta un archivo a la
+* `BinaryFileResponse`: establece las cabeceras y adjunta un archivo a la
  respuesta
 * `RedirectResponse`: establece el destino para una redirección
 * `StreamedResponse`: útil para el streaming de archivos muy grandes
@@ -315,7 +316,7 @@ reciben como parámetro una petición y devuelven una respuesta. Todo lo que
 tenemos que hacer es crear un controlador, escribir una mínima configuración
 para enlazarlo a una URL ¡y estaremos listos!
 
-No olvides subir tu trabajo al repositorio:
+No olvides hacer un commit al repositorio:
 
     git add -A
     git commit -m 'Creada la ruta Ni y el controlador'

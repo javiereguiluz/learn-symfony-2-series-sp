@@ -15,7 +15,7 @@ Entonces este artículo es para ti :) .
 No me malinterpretes, un día u otro tendrás que leer la
 [documentación](http://symfony.com/doc/current/index.html), y deberás practicar
 mucho si quieres dominarlo. Pero por ahora esta guía debería ser un buen
-comienzo para ti.
+comienzo.
 
 En el primer artículo de esta serie, conocerás
 [Composer](https://getcomposer.org/), que te ayudará con la instalación y
@@ -48,7 +48,7 @@ descárgalo:
     curl -sS https://getcomposer.org/installer | php
     sudo mv composer.phar /usr/local/bin/composer
 
-¡Ya está! Si todos los proyectos fueran tan sencillos de instalar...
+¡Ya está! Si todos los proyectos fueran tan fáciles de instalar...
 
 ## Instalando y actualizando Symfony2
 
@@ -90,8 +90,8 @@ Esto significa que puedes ignorar el directorio `vendor`:
 
     echo '/vendor/*' >> .gitignore
 
-Si tu equipo quiere instalar tu proyecto, sólo necesitarán clonar el tu
-repositorio y ejecutar `composer install` que realiza las siguientes tareas:
+Si un miembro de tu equipo quiere instalar el proyecto, sólo necesitará clonar el tu
+repositorio y ejecutar `composer install`, que realiza las siguientes tareas:
 
 1. lee el archivo `composer.json` para recoger la lista de dependencias
 2. lee el archivo `composer.lock` comprobar la versión instalada por el
@@ -100,8 +100,8 @@ repositorio y ejecutar `composer install` que realiza las siguientes tareas:
 (aunque haya una nueva versión disponible)
 
 Si una dependencia aparece en el archivo `composer.json` pero no en el
-`composer.lock`, Composer descargará la versión coincidente más reciente que y
-la añadirá al lock.
+`composer.lock`, Composer descargará la versión coincidente más reciente que
+esté disponible y la añadirá al lock.
 
 ¡Esto significa que todo el mundo tendrá la misma versión instalada! Si sólo
 permites a una persona ejecutar `composer update`, está garantizado.
@@ -109,7 +109,7 @@ permites a una persona ejecutar `composer update`, está garantizado.
 ## Autloading
 
 Gracias a que Composer sabe dónde está cada clase de cada librería instalada,
-ofrece una buenísima funcionalidad:
+ofrece una magnífica funcionalidad:
 [autoloading](http://www.php.net/manual/en/language.oop5.autoload.php).
 
 Para resumir, cada vez que una clase es instanciada, Composer incluye
@@ -133,9 +133,9 @@ Y ejecutar el siguiente comando para que se contemplen los cambios:
 
     composer update
 
-Este comando le dice a Composer que vamos a seguir el estándar
+Esta configuración le dice a Composer que vamos a seguir el estándar
 [PSR-4](http://www.php-fig.org/psr/psr-4/) y que vamos a poner nuestro código
-fuente en el directorio `src`.
+en el directorio `src`.
 
 *Nota*: PSR requiere que tu código siga algunas convenciones:
 
@@ -145,7 +145,7 @@ fuente en el directorio `src`.
 
 Por ejemplo: el archivo
 `src/Knight/ApplicationBundle/KnightApplicationBundle.php`
-contine una clase llamada `KnightApplicationBundle` localizada en el namespace
+contiene una clase llamada `KnightApplicationBundle` localizada en el namespace
 `Knight\ApplicationBundle`.
 
 No te preocupes demasiado por esto ahora.

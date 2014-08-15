@@ -12,7 +12,7 @@ Este es el segundo artículo de la sere para aprender sobre
 Échale un vistazo al primero:
 {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', 'Composer') }}.
 
-En el primer artículo empezamos a crear nuestro proyecto vacío con los
+En el primer artículo empezamos creando nuestro proyecto vacío con los
 siguientes archivos:
 
     .
@@ -29,7 +29,7 @@ Veamos cómo crear una aplicación Symfony2 vacía.
 
 ## El controlador frontal
 
-Empecemos por el principio, vamos a crear un archivo index que actuará como
+Empecemos por el principio, vamos a crear un archivo que actuará como
 controlador frontal: será el único punto de entrada a nuestra aplicación y
 decidirá qué página mostrar.
 
@@ -56,35 +56,35 @@ Después, el archivo:
 Primero incluímos el autoloader de Composer: requerirá todos los archivos
 necesarios.
 
-Después creamos una instancia de nuestro Kernel, en el entorno de producción
+Después creamos una instancia de nuestro kernel, en el entorno de producción
 y con las herramientas de debug deshabilitadas. Esta clase actúa como un
-servidor web: recibe una HTTP request y devuelve una HTTP response.
+servidor web: recibe una petición HTTP y devuelve una respuesta HTTP.
 
-`Request::createFromGlobals()` crea una representación de la request HTTP.
-Se rellena con las variables super globales de PHP (`$_GET`, `$_POST`, etc).
+`Request::createFromGlobals()` crea una representación de la petición HTTP.
+Se rellena con las variables superglobales de PHP (`$_GET`, `$_POST`, etc).
 
 Entonces el kernel se hace cargo de la request. Para no dar demasiadas
 explicaciones, diremos que lo que hará será encontrar el controlador asociado
-a la url solicitada. Es responsabilidad del controlador frontal devolver una
-representación de la response HTTP (ver
+a la URL solicitada. Es responsabilidad del controlador frontal devolver una
+representación de la respuesta HTTP (ver
 `Symfony\Component\HttpFoundation\Response`).
 
 El método `$response->send()` simplemente llama a la función `header` de PHP, e
-imprime una cadena de texto que será el body de la response (habitualmente HTML,
- JSON o lo que tú quieras).
+imprime una cadena de texto que será el body de la respuesta (habitualmente
+  HTML, JSON o lo que tú quieras).
 
 Finalmente, el método `$kernel->terminate()` llamará a cualquier tarea suscrita
 al evento `kernel.terminate` event. Esto te permite devolver una respuesta tan
 pronto como sea posible, y después ejecutar algunas acciones más, como enviar
 emails.
 
-*Nota*: los eventos se escapan al propósito de este artículo, pero es
+*Nota*: los eventos rebasan el ámbito de este artículo, pero es
 conveniente mencionarlos.
 
 ## Creando el kernel de la aplicación
 
 [El componente HttpKernel](http://symfony.com/doc/current/components/http_kernel/introduction.html)
-nos da la clase `Kernel`, a la que extenderemos.
+nos da la clase `Kernel`, que extenderemos.
 
 Crea el siguiente directorio:
 
@@ -144,7 +144,8 @@ Y el archivo YAML de configuración:
 El parámetro `secret` se usa como semilla para generar cadenas aleatorias (por
   ejemplo tokens CSRF).
 
-Ahora que tenemos la estructura de nuestra aplicación, subámosla al repositorio:
+Ahora que tenemos la estructura de nuestra aplicación, hagamos un commit al
+repositorio:
 
     git add -A
     git commit -m 'Estructura de la aplicación creada'
@@ -173,7 +174,7 @@ Dado que los archivos en estos directorios serán temporales, los ignoraremos:
 Para que tu sitio sea accesible, necesitarás configurar tu servidor web. El
 proceso está muy bien explicado
 [en la documentación](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html),
-así que esta es la pinta de un vhost de apache:
+así que esta es la pinta que tiene un vhost de apache:
 
     <VirtualHost *:80>
         ServerName knight.local
@@ -204,7 +205,8 @@ Si te encuentras con problemas de permisos (como no poder escribir en `cache`
 ## Conclusión
 
 Una aplicación Symfony2 sigue este patrón: un controlador frontal asocia una
-URL a un controlador, que recoge una request HTTP y devuelve una response HTTP.
+URL a un controlador, que recoge una petición HTTP y devuelve una respuesta
+HTTP.
 
 El siguiente artículo va sobre bundles, así que permanece atento :) .
 

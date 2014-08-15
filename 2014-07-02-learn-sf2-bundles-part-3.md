@@ -14,7 +14,7 @@ Echa un vistazo a los dos primeros:
 * {{ link('posts/2014-06-18-learn-sf2-composer-part-1.md', '1: Composer') }}
 * {{ link('posts/2014-06-25-learn-sf2-empty-app-part-2.md', '2: Aplicación vacía') }}
 
-En los anteriores artículos comenzamos a crear una aplicación vacía con los
+En los anteriores artículos empezamos creando nuestro proyecto vacío con los
 siguientes archivos:
 
     .
@@ -44,14 +44,14 @@ Vamos a ver qué es un bundle.
 Necesitaremos un caso de uso para que nuestros trozos de código tengan sentido.
 Así que ahí va: ¡los Caballeros Que Dicen 'Ni' necesitan un webservice! Deberá
 decir 'ni' si el usuario no complace sus exigencias. Para hacerlo, el usuario
-deberá postear ¡una almáciga (shruberry)!
+deberá postear ¡una almáciga! (shruberry).
 
 Vamos a definir el primer bundle de nuestra aplicación, para tener así un lugar
 en el que poner nuestro código. Para ello necesitamos crear su directorio:
 
     mkdir -p src/Knight/ApplicationBundle
 
-Después, la clase, que extiende a `Symfony\Component\HttpKernel\Bundle\Bundle`:
+Después, la clase, que extiende `Symfony\Component\HttpKernel\Bundle\Bundle`:
 
     <?php
     // File: src/Knight/ApplicationBundle/KnightApplicationBundle.php
@@ -88,14 +88,14 @@ Finalmente registramos el bundle en nuestra aplicación:
         }
     }
 
-Subamos nuestro trabajo al repositorio:
+Hagamos un commit al repositorio:
 
     git add -A
     git commit -m 'Creado el bundle de la aplicación'
 
 ## Los Bundles te permiten extender el DIC de la aplicación
 
-La clase `KnightApplicationBundle` extiende a la siguiente:
+La clase `KnightApplicationBundle` extiende la siguiente:
 
     <?php
 
@@ -142,7 +142,7 @@ DIC de la aplicación.
 
 ### Nota al margen sobre el DIC y los Servicios
 
-Los Servicios y la Inyección de Dependencias se escapan del alcance de esta
+Los Servicios y la Inyección de Dependencias escapan del ámbito de esta
 serie. De todos modos, si quieres descubrir de qué va eso, echa un vistazo a
 estos dos artículos:
 
@@ -160,7 +160,7 @@ Para aprender más sobre comandos, echa un vistazo a este artículo:
 
 * {{ link('posts/2014-04-09-sf2-console-component-by-example.md', 'Symfony2 Console component, by example') }}
 
-*Nota*: los comandos se escapan al propósito de este artículo,
+*Nota*: los comandos rebasan el ámbito de este artículo,
 pero es conveniente mencionarlos.
 
 ## Dos tipos de bundle
@@ -172,12 +172,13 @@ Hay dos tipos de bundle:
 * de aplicación (no reusables y dedicados a tu modelo de negocio)
 
 Miremos a la [librería snappy de KnpLabs](https://github.com/KnpLabs/snappy): te
-permite generar un PDF de una página HTML y puede ser usaro en cualquier
-aplicación (aplicaciones no-symfony, incluso aplicaciones sin framework).
+permite generar un PDF a partir de una página HTML y puede ser usado en
+cualquier aplicación (aplicaciones no-symfony, incluso aplicaciones sin
+  framework).
 
 La clase que permite esta generación es
 `Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator`: su construcción es un poco
-cansada. Para arreglarlo, podemos definir su construcción en el DIC, y
+cansina. Para arreglarlo, podemos definir su construcción en el DIC, y
 afortunadamente ya hay un bundle que hace esto por nosotros:
 [KnpSnappyBundle](https://github.com/KnpLabs/KnpSnappyBundle).
 
@@ -190,7 +191,7 @@ un bundle que haga el trabajo por nosotros automáticamente!
 
 A veces, encontraremos aplicaciones que tienen muchos bundles, para así poder
 categorizar las funcionalidades en módulos. Esto no es necesario, y es un poco
-cansado, si se me permite: podemos simplemente crear carpetas en un único bundle
+cansino, si se me permite: podemos simplemente crear carpetas en un único bundle
 para categorizar nuestros módulos.
 
 La creación de varios bundles nencesita algunos pasos manuales adicionales.
@@ -203,13 +204,14 @@ clases (que puede que necesiten a los otros tres bundles).
 Mi consejo: crea un único bundle para tu aplicación. Si más tarde descubres que
 has creado un conjunto de clases que tendría sentido reusar en otros proyectos
 (sean proyectos Symfony2 o no), entonces quizá puedas extraerlas para crear una
-librería de terceris. Y después podrás finalmente crear un bundle para integrar
+librería de terceros. Y después podrás finalmente crear un bundle para integrar
 esa librería en aplicaciones Symfony2.
 
 ## Conclusión
 
 Los bundles son una manera de extender el Contenedor de Inyección de
-Dependencias: son el pegamento que une tu código y las aplicaciones Symfony2.
+Dependencias: son la capa de pegamento que une tu código y las aplicaciones
+Symfony2.
 
 Siguen convenciones que no han sido *hard coded* (puedes sobreescribir cualqiuer
   cosa), permitiendo *autodescubrir* algunas clases muy convenientes.
