@@ -17,8 +17,8 @@ Echa un vistazo a los artículos que la componen:
 4. {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', 'Controladores') }}
 5. {{ link('posts/2014-07-20-learn-sf2-tests-part-5.md', 'Tests') }}
 
-En los anteriores artículos comenzamos a crear una aplicación testada con los
-siguientes archivos:
+En los anteriores artículos una aplicación testeada para Los Caballeros Que
+Dicen 'Ni' con los siguientes archivos:
 
     .
     ├── app
@@ -106,7 +106,7 @@ siguientes artículos:
 * {{ link('posts/2014-01-29-sf2-di-component-by-example.md', 'Symfony2 Dependency Injection component, by example') }}
 
 El único bundle que necesitas crear es el `ApplicationBundle`, donde estará
-todo tu código. Así es como se crea el bundle:
+todo tu código. Así es como se hace:
 
 1. crea su directorio: `mkdir -p src/<Vendor>/<Name>Bundle`
 2. crea su clase: `$EDITOR src/<Vendor>/<Name>Bundle/<Vendor><Name>Bundle.php`
@@ -161,7 +161,7 @@ Después regístralo en el kernel de la aplicación:
                 new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
                 new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
-                // Add your bundles here!
+                // Añade aquí tus bundles
             );
 
             if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -169,7 +169,7 @@ Después regístralo en el kernel de la aplicación:
                 $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
                 $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
 
-                // Or here, if you want it to only be available in dev or test environment
+                // O aquí, si quieres que sólo estén disponibles en el entorno de testing
             }
 
             return $bundles;
@@ -201,8 +201,8 @@ controlador a una URL. Ejemplo:
         defaults:
             _controller: KnightApplicationBundle:Api:question
 
-Como ves, puedes definir las rutas usando *placeholders*, que después estarán
-disponibles en el controlador vía el objeto Request:
+Como ves, puedes definir las rutas usando *placeholders* (o comodines), que
+después estarán disponibles en el controlador vía el objeto Request:
 
     $request->query->get('number'); // query is an instance of ParameterBag
 
@@ -214,8 +214,8 @@ Un controlador es una clase localizada en
 `src/<Vendor>/ApplicationBundle/Controller`,
 con el sufijo `Controller`.
 
-Una acción es un método público de un contnrolador, con el sufijo `Action`,
-que recibe un parámetro `Request $request`y debe devolver una instancia del
+Una acción es un método público de un controlador, con el sufijo `Action`,
+que recibe un parámetro `Request $request` y debe devolver una instancia del
 objeto `Response`:
 
     <?php
@@ -314,7 +314,7 @@ prefieras!
 ## Conclusión
 
 Symfony2 se aparta de tu camino, las únicas clases del framework que necesitamos
-usar son el controlador, la request y la response.
+usar son el controlador, la petición y la respuesta.
 
 El flujo de trabajo es realmente simple:
 
@@ -329,9 +329,9 @@ con la URL actual
 
 Practicar.
 
-Sabemos lo estrictamente necesario sobre Symfony2, y la única manera de aprender
+Sabes lo estrictamente necesario sobre Symfony2, y la única manera de aprender
 más es practicar, encontrar nuevos casos de uso, encontrar respuestas en la
-[documentación](http://symfony.com/doc/current/index.html) y pregntar en
+[documentación](http://symfony.com/doc/current/index.html) y preguntar en
 [StackOverflow](http://stackoverflow.com/questions/tagged/symfony2) (si nadie
   lo ha preguntado antes).
 

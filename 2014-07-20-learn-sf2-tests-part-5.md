@@ -16,8 +16,8 @@ Echa un vistazo a los cuatro primeros:
 3. {{ link('posts/2014-07-02-learn-sf2-bundles-part-3.md', 'Bundles') }}
 4. {{ link('posts/2014-07-12-learn-sf2-controllers-part-4.md', 'Controladores') }}
 
-En los anteriores artículos comenzamos a crear una aplicación vacía con los
-siguientes archivos:
+En los anteriores artículos una aplicación para Los Caballeros Que Dicen 'Ni'
+con los siguientes archivos:
 
     .
     ├── app
@@ -102,7 +102,7 @@ Para nuestros tests funcionales, utilizaremos la clase `WebTestCase`: instancia
 nuestro `AppKernel` con el entorno `test`. También usa el servicio
 `test.client`, que está desactivado por defecto.
 
-Para actiarlo, debemos modificar la configuración:
+Para activarlo, debemos modificar la configuración:
 
     # File: app/config/config.yml
     framework:
@@ -124,11 +124,11 @@ configuración específica de nuestros tests en un archivo diferente:
         test: ~
 
 *Nota*: el parámetro `imports` te permite incluír otros archivos de
-configuración.
-Así, puedes sobreescribir los parámetros incluídos, o añadir nuevos.
+configuración. Así, puedes sobreescribir los parámetros incluídos, o añadir
+nuevos.
 
-Deberíamos cambiar el método `registerContainerConfiguration` de la clase
-`AppKernel` para que cargue la configuración de los tests dependiendo del
+Deberíamos cambiar también el método `registerContainerConfiguration` de la
+clase `AppKernel` para que cargue la configuración de los tests dependiendo del
 entorno:
 
     <?php
@@ -157,7 +157,7 @@ entorno:
         }
     }
 
-Subamos nuestro trabajo al repositorio:
+Hagamos un commit al repositorio:
 
     git add -A
     git commit -m 'Añadida  la configuración de testing'
@@ -172,7 +172,7 @@ Creemos el directorio:
 
     mkdir -p src/Knight/ApplicationBundle/Tests/Controller
 
-*Nota*: De nuevp [por convención](http://symfony.com/doc/current/book/testing.html#unit-tests),
+*Nota*: De nuevo [por convención](http://symfony.com/doc/current/book/testing.html#unit-tests),
 tu estructura de directorios de test debe replicar la de tu bundle.
 
 Y nuestro primer test funcional:
@@ -210,7 +210,7 @@ Para comprobar que pasamos el test, ejecuta el siguiente comando:
     ./vendor/bin/phpunit -c app
 
 Composer ha instalado un archivo binario en `vendor/bin`, y la opción `-c` te
-permite decírle a PHPUnit dónde está la configuración (en `./app`).
+permite decirle a PHPUnit dónde está la configuración (en `./app`).
 
 Parece que nuestro test es un poco largo por culpa de los parámetros... Podemos
 mejorar esto con métodos auxiliares:
@@ -246,7 +246,7 @@ Comprueba que aún pasamos el test:
     ./vendor/bin/phpunit -c app
 
 El método `isSuccessful` de Response sólo comprueba que el código de estado es
-200.
+2xx.
 
 Aquí está el test para el caso de error:
 
@@ -287,13 +287,13 @@ Ejecuta los tests:
 
     ./vendor/bin/phpunit -c app
 
-*Nota*: A partir de aquí, debería convertirse en habitual ejecutar los tests.
+*Nota*: A partir de ahora, debería convertirse en habitual ejecutar los tests.
 Asegúrate de ejecutarlos siempre que termines un cambio, y de ejecutarlos de
 nuevo antes de añadir nada al repositorio.
 
 ## Tests funcionales de la API Rest
 
-En mi humilde opinión, comprobar que el código de estado es 200 y no comprobar
+En mi humilde opinión, comprobar que el código de estado es 2xx y no comprobar
 el contenido de la respuesta es más que suficiente para un test funcional.
 
 Al crear una API REST, puede ser útil testear más precisamente el código de
@@ -337,7 +337,7 @@ Ejecuta los tests:
 
     ./vendor/bin/phpunit -c app
 
-¡Verde! ¡Es suficiente recompensa como para subir nuestro trabajo al repositorio
+¡Verde! ¡Es suficiente recompensa como para hacer un commit al repositorio
 y dar la jornada por terminada!
 
     git add -A
