@@ -12,7 +12,7 @@ leer una guía rápida para aprender cómo utilizarlo, y cómo funciona?
 
 Entonces este artículo es para ti :) .
 
-No me malinterpretes, un día u otro tendrás que leer la
+No me malinterpretes, tarde o temprano tendrás que leer la
 [documentación](http://symfony.com/doc/current/index.html), y deberás practicar
 mucho si quieres dominarlo. Pero por ahora esta guía debería ser un buen
 comienzo.
@@ -70,11 +70,11 @@ Composer se creó para instalar librerías, así que vamos a usarlo:
 
 Este comando realizará las siguientes tareas:
 
-1. crear un archivo de configuración llamado `composer.json` si no existe ya
-2. añadir `symfony/symfony: ~2.5` a ese archivo (útil para futuros
+1. Crear un archivo de configuración llamado `composer.json` si no existe ya
+2. Añadir `symfony/symfony: ~2.5` a ese archivo (útil para futuros
 `composer install`)
-3. descargar efectivamente symfony en el directorio `vendor/symfony/symfony`
-4. crear un archivo `composer.lock`
+3. Descargar efectivamente Symfony en el directorio `vendor/symfony/symfony`
+4. Crear un archivo `composer.lock`
 
 Más tarde, para actualizar estas dependencias, bastará con ejecutar `composer
 update`.
@@ -93,10 +93,10 @@ Esto significa que puedes ignorar el directorio `vendor`:
 Si un miembro de tu equipo quiere instalar el proyecto, sólo necesitará clonar el tu
 repositorio y ejecutar `composer install`, que realiza las siguientes tareas:
 
-1. lee el archivo `composer.json` para recoger la lista de dependencias
-2. lee el archivo `composer.lock` comprobar la versión instalada por el
+1. Lee el archivo `composer.json` para recoger la lista de dependencias
+2. Lee el archivo `composer.lock` comprobar la versión instalada por el
 *commiter*
-3. descarga las dependencias con la versión especificada en el archivo lock
+3. Descarga las dependencias con la versión especificada en el archivo lock
 (aunque haya una nueva versión disponible)
 
 Si una dependencia aparece en el archivo `composer.json` pero no en el
@@ -139,9 +139,9 @@ en el directorio `src`.
 
 *Nota*: PSR requiere que tu código siga algunas convenciones:
 
-* crea una clase por cada archivo
-* dale el mismo nombre a tu archivo y tu clase
-* usa la ruta de la clase como namespace
+* Crea una clase por cada archivo
+* Dale el mismo nombre a tu archivo y tu clase
+* Usa la ruta de la clase como namespace
 
 Por ejemplo: el archivo
 `src/Knight/ApplicationBundle/KnightApplicationBundle.php`
